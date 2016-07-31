@@ -7,29 +7,15 @@
 		Nz, Vacation Scheduler
 	</title>
 	<link rel="stylesheet" type="text/css" href="basic.css">
-	<script type="text/javascript" src="exel.js"></script>
+	<script type="text/javascript" src="hollerith.js"></script>
 </head>
  <body>
-	<div class="l_links"><nav>
+	<div class="l_links">
 	&nbsp;<br>
-	<b>+ Nzen</b><br>
-	<a href="blog/index.html">Blogs</a><br>
-	<a href="encyclo/index.html">Encyclo</a><br>
-	<a href="autobio/index.html">Who?</a><br>
-	<!--<a href="nz_rss.xml"><img src="fancy/rss.jpg" alt="rss"></a><br>-->
-	<b>+ External</b><br>
-	<a href="https://github.com/Nzen">Github</a><br>
-	<a href="https://bitbucket.org/Nzen">Bitbucket</a><br>
-	<a href="http://everything2.com/user/Nzen">E2 Posts</a><br>
-	<a href="http://nchzen.tumblr.com/">Tumblr</a><br>
-	<a href="http://nzen.deviantart.com/">Drawings</a><br>
-	<a href="http://www.flickr.com/photos/18099895@N06/">Photos</a><br>
-	<a href="https://twitter.com/Nchzen">Tweed</a><br>
-	<a href="https://www.facebook.com/nicholas.m.prado">Fece</a><br>
-	<a href="http://www.youtube.com/user/Nchzen">Videos</a>
-	&nbsp;
-	</nav></div>
+	<!-- pushes the other div over -->
+	</div>
   <div class="content">
+	<p>&nbsp;</p>
 	<p>
 	<table border="1">
 	<tr>
@@ -42,48 +28,46 @@
 		<td>Sun</td>
 	</tr>
 	<tr>
-		<td id="wk1_d1">...</td>
-		<td id="wk1_d2">...</td>
-		<td id="wk1_d3">...</td>
-		<td id="wk1_d4">...</td>
-		<td id="wk1_d5">...</td>
-		<td id="wk1_d6">...</td>
-		<td id="wk1_d7">...</td>
+		<td id="d01">...</td>
+		<td id="d02">...</td>
+		<td id="d03">...</td>
+		<td id="d04">...</td>
+		<td id="d05">...</td>
+		<td id="d06">...</td>
+		<td id="d07">...</td>
 	</tr>
 	<tr>
-		<td id="wk2_d1">...</td>
-		<td id="wk2_d2">...</td>
-		<td id="wk2_d3">...</td>
-		<td id="wk2_d4">...</td>
-		<td id="wk2_d5">...</td>
-		<td id="wk2_d6">...</td>
-		<td id="wk2_d7">...</td>
+		<td id="d08">...</td>
+		<td id="d09">...</td>
+		<td id="d10">...</td>
+		<td id="d11">...</td>
+		<td id="d12">...</td>
+		<td id="d13">...</td>
+		<td id="d14">...</td>
 	</tr>
 	<tr>
-		<td id="wk3_d1">...</td>
-		<td id="wk3_d2">...</td>
-		<td id="wk3_d3">...</td>
-		<td id="wk3_d4">...</td>
-		<td id="wk3_d5">...</td>
-		<td id="wk3_d6">...</td>
-		<td id="wk3_d7">...</td>
+		<td id="d15">...</td>
+		<td id="d16">...</td>
+		<td id="d17">...</td>
+		<td id="d18">...</td>
+		<td id="d19">...</td>
+		<td id="d20">...</td>
+		<td id="d21">...</td>
 	</tr>
 	<tr>
-		<td id="wk4_d1">...</td>
-		<td id="wk4_d2">...</td>
-		<td id="wk4_d3">...</td>
-		<td id="wk4_d4">...</td>
-		<td id="wk4_d5">...</td>
-		<td id="wk4_d6">...</td>
-		<td id="wk4_d7">...</td>
+		<td id="d22">...</td>
+		<td id="d23">...</td>
+		<td id="d24">...</td>
+		<td id="d25">...</td>
+		<td id="d26">...</td>
+		<td id="d27">...</td>
+		<td id="d28">...</td>
 	</tr>
 	</table>
 	</p> <p>
 	<form>
-		<input type="button" value="Add" onclick="stor()"> |&nbsp;
-		 <input type="button" value="Synergize" onclick="sortPrefs()"><br>
 		Name <input type="text" id="name"> Seniority:
-		<select id="senor">
+		<select id="senority">
 			<option>1</option>
 			<option>2</option>
 			<option>3</option>
@@ -92,38 +76,25 @@
 	</form>
 	</p> <p>
 	<form>
-		Choice 1: week <select id="weekL1">
+		Choice <select id="preference">
 			<option>1</option>
 			<option>2</option>
 			<option>3</option>
 			<option>4</option>
-		</select> day <select id="dayL1">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-			<option>7</option>
-		</select><br>
-		Choice 2: week <select id="weekL2">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-		</select> day <select id="dayL2">
-			<option>1</option>
-			<option>2</option>
-			<option>3</option>
-			<option>4</option>
-			<option>5</option>
-			<option>6</option>
-			<option>7</option>
-		</select><br>
+			<option>11</option>
+			<option>14</option>
+		</select>
+		month (01-12) <input type="text" id="month" maxlength="2" size="5" disabled />
+		day <input type="text" id="day" maxlength="2" size="5" />
 	</form>
+	</p> <p>
+	<blockquote><form>
+		<input type="button" value="Add" onclick="addChoice()" /> |
+		 <input type="button" value="Remove" onclick="removeChoice()" />
+	</form></blockquote>
 	</p> <p>Selection:
 	<form>
-		<textarea id="out" rows="4" cols="50" disabled>...</textarea>
+		<textarea id="entryOut" rows="4" cols="50" disabled></textarea>
 	</form>
 	</p>
 	<p>&nbsp;</p>
