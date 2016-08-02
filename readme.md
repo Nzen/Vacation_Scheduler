@@ -4,4 +4,4 @@ Enables adding heirarchically ranked people with heirarchically declared prefere
 
 ### Under development ###
 
-&copy; Nicholas Prado, released under [Fair License|fairlicense.org] terms.
+&copy; Nicholas Prado, released under (Fair License)[fairlicense.org] terms.
