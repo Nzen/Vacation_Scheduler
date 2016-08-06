@@ -22,11 +22,18 @@ Handles scheduling employees with heirarchal seniority and several preferences.
 	<textarea id="entryOut" rows="4" cols="50" disabled></textarea>
 */
 
+/*
+	test the model by adding and removing people
+	decide how constrainer will pull data from the model
+	
+*/
+
 var termin = function() {};
 termin.log = function( message )
-{ try
+{
+	try
 	{ console.log( message ); }
-catch ( exception )
+	catch ( exception )
 	{ return; } // IE reputedly has no console.
 }
 
@@ -105,7 +112,7 @@ function Person( theName )
 	{
 		return this.preferences.length;
 	},
-	asString()
+	asString: function()
 	{
 		var pDesc = this.nameId;
 		for ( var desire in this.preferences )
@@ -116,18 +123,19 @@ function Person( theName )
 	}
 };
 
-function VsApp()
+/** holds all the people entered currently */
+function VsModel()
 {
 	this.people = [];
 	/** add choice, conflict pushes original to the bottom */
-	addChoiceToPerson: function( person, seniority, priority, day )
+	addChoiceToPerson: function( nameEntered, seniority, priority, day )
 	{
 		if ( seniority > this.people.length
 			|| this.people[ seniority ] == undefined )
 		{
-			this.people[ seniority ] = new Person( person );
+			this.people[ seniority ] = new Person( nameEntered );
 		}
-		else if ( this.people[ seniority ].nameId != person )
+		else if ( this.people[ seniority ].nameId != nameEntered )
 		{
 			// send it to the back
 			var tempPerson = new Person( this.people[ seniority ].nameId );
@@ -142,14 +150,39 @@ function VsApp()
 			}
 			this.people.push( tempPerson );
 			// now add the new person in his'oer place
-			this.people[ seniority ] = new Person( person );
+			this.people[ seniority ] = new Person( nameEntered );
 		}
 		this.people[ seniority ].addToChoice( day, priority );
 	},
-	removeChoiceFromPerson: function( person, seniority, priority, day )
+	removeChoiceFromPerson: function( nameEntered, seniority, priority, day )
 	{
-		
+		if ( seniority > this.people.length
+			|| this.people[ seniority ] == undefined )
+		{
+			this.people[ seniority ] = new Person( nameEntered );
+		}
+		else if ( this.people[ seniority ].nameId != nameEntered )
+		{
+			var indOfPerson = this.people.indexOf( nameEntered );
+			if ( indOfPerson < 0 )
+			{
+				this.people.push(new Person( nameEntered ));
+			}
+			else
+			{
+				this.people[ ind ].removeFromChoice( day, priority );
+			}
+		}
+		else
+		{
+				this.people[ ind ].removeFromChoice( day, priority );
+		}
+	},
+	asString: function()
+	{
+		// TODO
 	}
+	// IMPROVE other getters for constrainer, or will it access them directly?
 };
 
 // --- dom interface
