@@ -76,7 +76,7 @@ function Choice()
 		{
 			desc += ", "+ aDay.toString();
 		}
-		return desc
+		return desc;
 	}
 };
 
@@ -126,7 +126,7 @@ function Person( theName )
 /** holds all the people entered currently */
 function VsModel()
 {
-	this.people = [];
+	this.people = [],
 	/** add choice, conflict pushes original to the bottom */
 	addChoiceToPerson: function( nameEntered, seniority, priority, day )
 	{
@@ -177,43 +177,56 @@ function VsModel()
 		{
 				this.people[ ind ].removeFromChoice( day, priority );
 		}
-	},
+	}
 	asString: function()
 	{
-		// TODO
+		var theEverything = "";
+		var ind = 0;
+		for ( var who in this.people )
+		{
+			theEverything += ind.toString()
+					+" "+ who.asString(); 
+		}
+		return theEverything;
 	}
 	// IMPROVE other getters for constrainer, or will it access them directly?
 };
 
 // --- dom interface
 
-var people = [];
+var peoples = new VsModel();
 
 function addChoice()
 {
-	// NEXT make this use an array of choices, as a test
-	var currName = document.getElementById("name").value;
-	if ( currName.length < 1 )
-	{
-		termin.log( "blank name" );
-		return;
-	}
-	else if (people.indexOf( currName ) >= 0)
-	{
-		termin.log( "already saved" );
-		return;
-	}
-	else
-	{
-		people.push( currName );
-		document.getElementById("entryOut").value += currName + "\n";
-		termin.log( "added name" );
-	}
+	termin.log( "add choice" );
+	peoples.removeChoiceFromPerson(
+			document.getElementById("name").value,
+			document.getElementById("senority").value,
+			document.getElementById("preference").value,
+			document.getElementById("day").value );
+	document.getElementById("entryOut").value = peoples.asString();
 }
+/*
+<td id="d28">...</td>
+Name <input type="text" id="name">
+<select id="senority">
+Choice <select id="preference">
+month (01-12) <input type="text" id="month" maxlength="2" size="5" disabled />
+day <input type="text" id="day" maxlength="2" size="5" />
+<input type="button" value="Add" onclick="addChoice()" /> |
+ <input type="button" value="Remove" onclick="removeChoice()" />
+<textarea id="entryOut" rows="4" cols="50" disabled></textarea>
+*/
 
 function removeChoice()
 {
 	termin.log( "remove choice" );
+	peoples.addChoiceToPerson(
+			document.getElementById("name").value,
+			document.getElementById("senority").value,
+			document.getElementById("preference").value,
+			document.getElementById("day").value );
+	document.getElementById("entryOut").value = peoples.asString();
 }
 
 
