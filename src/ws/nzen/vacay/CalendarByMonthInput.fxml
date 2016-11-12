@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane fx:id="bpMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <FlowPane fx:id="fpNavigation" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="414.0" prefWidth="120.0" style="-fx-background-color: #fcb;" BorderPane.alignment="CENTER">
+         <children>
+            <ComboBox fx:id="cbNavYear" prefHeight="26.0" prefWidth="104.0" promptText="2016" />
+            <Separator orientation="VERTICAL" prefHeight="34.0" prefWidth="5.0" />
+            <ComboBox fx:id="cbNavMonth" prefHeight="26.0" prefWidth="121.0" promptText="september" />
+            <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="2.0" />
+            <Button fx:id="btNavEarlier" mnemonicParsing="false" text="Earlier" />
+            <Separator orientation="VERTICAL" prefHeight="16.0" prefWidth="6.0" />
+            <Button fx:id="btNavLater" mnemonicParsing="false" text="Later" />
+         </children>
+      </FlowPane>
+   </left>
+   <center>
+      <GridPane fx:id="gpMonth" alignment="CENTER" style="-fx-background-color: #fbcc;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btDayT0" mnemonicParsing="false" onAction="#pressedT0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
+            <Button fx:id="btDayW0" mnemonicParsing="false" onAction="#pressedW0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" />
+            <Button fx:id="btDayR0" mnemonicParsing="false" onAction="#pressedR0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" />
+            <Button fx:id="btDayF0" mnemonicParsing="false" onAction="#pressedF0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" />
+            <Button fx:id="btDayM1" mnemonicParsing="false" onAction="#pressedM1" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="1" />
+            <Button fx:id="btDayT1" mnemonicParsing="false" onAction="#pressedT1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="btDayW1" mnemonicParsing="false" onAction="#pressedW1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="btDayR1" mnemonicParsing="false" onAction="#pressedR1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button fx:id="btDayF1" mnemonicParsing="false" onAction="#pressedF1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Button fx:id="btDayM2" mnemonicParsing="false" onAction="#pressedM2" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="2" />
+            <Button fx:id="btDayT2" mnemonicParsing="false" onAction="#pressedT2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="btDayW2" mnemonicParsing="false" onAction="#pressedW2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="btDayR2" mnemonicParsing="false" onAction="#pressedR2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="btDayF2" mnemonicParsing="false" onAction="#pressedF2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Button fx:id="btDayM3" mnemonicParsing="false" onAction="#pressedM3" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="3" />
+            <Button fx:id="btDayM4" mnemonicParsing="false" onAction="#pressedM4" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM5" mnemonicParsing="false" onAction="#pressedM5" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT5" mnemonicParsing="false" onAction="#pressedT5" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT4" mnemonicParsing="false" onAction="#pressedT4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="btDayT3" mnemonicParsing="false" onAction="#pressedT3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW3" mnemonicParsing="false" onAction="#pressedW3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="btDayR3" mnemonicParsing="false" onAction="#pressedR3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button fx:id="btDayF3" mnemonicParsing="false" onAction="#pressedF3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW4" mnemonicParsing="false" onAction="#pressedW4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button fx:id="btDayR4" mnemonicParsing="false" onAction="#pressedR4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="btDayF4" mnemonicParsing="false" onAction="#pressedF4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM0" mnemonicParsing="false" onAction="#pressedM0" prefHeight="50.0" prefWidth="50.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff4d" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <Label fx:id="lDayS1" text=".." GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Label fx:id="lDayS0" text=".." GridPane.columnIndex="5" />
+            <Label fx:id="lDayU0" text=".." GridPane.columnIndex="6" />
+            <Label fx:id="lDayU1" text=".." GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <Label fx:id="lDayS2" text=".." GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Label fx:id="lDayU2" text=".." GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <Label fx:id="lDayU3" text=".." GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <Label fx:id="lDayS3" text=".." GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Label fx:id="lDayS4" text=".." GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <Label fx:id="lDayU4" text=".." GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff4d" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff4d" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff4d" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff4d" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+   </center>
+   <right>
+      <Pane fx:id="ppSpacerEe" prefHeight="361.0" prefWidth="24.0" style="-fx-background-color: #bac;" BorderPane.alignment="CENTER" />
+   </right>
+   <bottom>
+      <HBox prefHeight="142.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane fx:id="ppSpacerSw" prefHeight="100.0" prefWidth="121.0" />
+            <GridPane fx:id="gpInputModifiers" prefHeight="100.0" prefWidth="477.0" style="-fx-background-color: #fbf;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lSaysWho" text="Who" />
+                  <Label fx:id="lSaysSeniorness" text="Seniority" GridPane.columnIndex="2" />
+                  <Label fx:id="lSaysDesirability" text="Desire" GridPane.columnIndex="4" />
+                  <TextField fx:id="tfName" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfSeniority" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfDesire" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <RadioButton fx:id="rbDoesAdd" mnemonicParsing="false" selected="true" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <RadioButton fx:id="rbDoesDelete" mnemonicParsing="false" text="Delete" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label fx:id="lSaysClick" text="Click does :" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="btSave" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button fx:id="btRestore" mnemonicParsing="false" text="Restore" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Button fx:id="btExport" mnemonicParsing="false" text="Export" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="129.0" minWidth="10.0" prefWidth="122.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="61.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.0" minWidth="10.0" prefWidth="74.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.0" minWidth="10.0" prefWidth="61.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="83.0" minWidth="10.0" prefWidth="65.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="82.0" minWidth="10.0" prefWidth="63.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="10.0" prefWidth="67.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="65.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.0" minWidth="10.0" prefWidth="28.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="lSaysMon" text="Mon" GridPane.columnIndex="1" />
+            <Label fx:id="lSaysTue" text="Tues" GridPane.columnIndex="2" />
+            <Label fx:id="lSaysWedn" text="Wedn" GridPane.columnIndex="3" />
+            <Label fx:id="lSaysThur" text="Thur" GridPane.columnIndex="4" />
+            <Label fx:id="lSaysFri" text="Fri" GridPane.columnIndex="5" />
+            <Label fx:id="lSaysSat" text="Sat" GridPane.columnIndex="6" />
+            <Label fx:id="lSaysSun" text="Sun" GridPane.columnIndex="7" />
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>
