@@ -3,11 +3,11 @@ Assumptions:
  _ employees are ranked by seniority
  employees get _ variations of those days, called preferences
  preferences are ranked by desirabilty
- preferences of a higher degree beat those of a lesser degree independent of seniority
+ preferences of a higher degree beat those of a lesser degree, independent of seniority
  where preference degree is lesser or equal, seniority will beat out
  two employees may be absent per day
  * when days of degree > days left for completion, defer to the user to ask the employee for more choices
 
 Constraints:
- Unable to install arbitrary runtimes. Might not jave jre.
+ Unable to install arbitrary runtimes. Might not java jre.
  Has Internet Explorer of some version (able to run 2013 prototype).

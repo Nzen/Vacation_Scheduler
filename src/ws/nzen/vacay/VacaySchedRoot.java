@@ -1,4 +1,4 @@
-package application;
+package ws.nzen.vacay;
 	
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,7 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 
-public class Main extends Application {
+public class VacaySchedRoot extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
