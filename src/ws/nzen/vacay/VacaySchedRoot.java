@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,36 +19,16 @@ import javafx.scene.layout.VBox;
 
 
 public class VacaySchedRoot extends Application {
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+
 	@Override
-	public void start(Stage primaryStage) {
-		try {
-			Label saysStatus = new Label( "not sure yet" );
-			Button pushListener = new Button();
-			pushListener.setText( "Tests filewriting" );
-			pushListener.setOnAction( new EventHandler<ActionEvent>()
-			{
-				@Override
-				public void handle( ActionEvent whatHappened )
-				{
-					String newStatus;
-					if ( wroteFile() )
-						newStatus = "Worked yay";
-					else
-						newStatus = "I'll need to use a webpage instead";
-					saysStatus.setText( newStatus );
-				}
-			});
-			VBox root = new VBox();
-			root.getChildren().add(saysStatus);
-			root.getChildren().add(pushListener);
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass()
-					.getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	public void start(Stage primaryStage) throws IOException {
+		// prep the model
+		CalendarByMonth view = new CalendarByMonth();
+		view.start(primaryStage);
 	}
 
 	private boolean wroteFile()
@@ -63,10 +45,6 @@ public class VacaySchedRoot extends Application {
 		    System.err.format("IOException: %s%n", x);
 		    return ! worked;
 		}
-	}
-	
-	public static void main(String[] args) {
-		launch(args);
 	}
 }
 

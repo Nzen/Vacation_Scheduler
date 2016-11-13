@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 
-<BorderPane fx:id="bpMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="bpMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ws.nzen.vacay.CalendarByMonth">
    <left>
       <FlowPane fx:id="fpNavigation" columnHalignment="CENTER" orientation="VERTICAL" prefHeight="414.0" prefWidth="120.0" style="-fx-background-color: #fcb;" BorderPane.alignment="CENTER">
          <children>
@@ -23,7 +23,7 @@
             <Separator orientation="VERTICAL" prefHeight="34.0" prefWidth="5.0" />
             <ComboBox fx:id="cbNavMonth" prefHeight="26.0" prefWidth="121.0" promptText="september" />
             <Separator orientation="VERTICAL" prefHeight="47.0" prefWidth="2.0" />
-            <Button fx:id="btNavEarlier" mnemonicParsing="false" text="Earlier" />
+            <Button fx:id="btNavEarlier" mnemonicParsing="false" onAction="#pressedNavEarlier" text="Earlier" />
             <Separator orientation="VERTICAL" prefHeight="16.0" prefWidth="6.0" />
             <Button fx:id="btNavLater" mnemonicParsing="false" text="Later" />
          </children>
@@ -49,33 +49,33 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btDayT0" mnemonicParsing="false" onAction="#pressedT0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
-            <Button fx:id="btDayW0" mnemonicParsing="false" onAction="#pressedW0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" />
-            <Button fx:id="btDayR0" mnemonicParsing="false" onAction="#pressedR0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" />
-            <Button fx:id="btDayF0" mnemonicParsing="false" onAction="#pressedF0" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" />
-            <Button fx:id="btDayM1" mnemonicParsing="false" onAction="#pressedM1" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="1" />
-            <Button fx:id="btDayT1" mnemonicParsing="false" onAction="#pressedT1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="btDayW1" mnemonicParsing="false" onAction="#pressedW1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button fx:id="btDayR1" mnemonicParsing="false" onAction="#pressedR1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button fx:id="btDayF1" mnemonicParsing="false" onAction="#pressedF1" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Button fx:id="btDayM2" mnemonicParsing="false" onAction="#pressedM2" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="2" />
-            <Button fx:id="btDayT2" mnemonicParsing="false" onAction="#pressedT2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="btDayW2" mnemonicParsing="false" onAction="#pressedW2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button fx:id="btDayR2" mnemonicParsing="false" onAction="#pressedR2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Button fx:id="btDayF2" mnemonicParsing="false" onAction="#pressedF2" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Button fx:id="btDayM3" mnemonicParsing="false" onAction="#pressedM3" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="3" />
-            <Button fx:id="btDayM4" mnemonicParsing="false" onAction="#pressedM4" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="4" />
-            <Button fx:id="btDayM5" mnemonicParsing="false" onAction="#pressedM5" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="5" />
-            <Button fx:id="btDayT5" mnemonicParsing="false" onAction="#pressedT5" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Button fx:id="btDayT4" mnemonicParsing="false" onAction="#pressedT4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="btDayT3" mnemonicParsing="false" onAction="#pressedT3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="btDayW3" mnemonicParsing="false" onAction="#pressedW3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Button fx:id="btDayR3" mnemonicParsing="false" onAction="#pressedR3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Button fx:id="btDayF3" mnemonicParsing="false" onAction="#pressedF3" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Button fx:id="btDayW4" mnemonicParsing="false" onAction="#pressedW4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Button fx:id="btDayR4" mnemonicParsing="false" onAction="#pressedR4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Button fx:id="btDayF4" mnemonicParsing="false" onAction="#pressedF4" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Button fx:id="btDayM0" mnemonicParsing="false" onAction="#pressedM0" prefHeight="50.0" prefWidth="50.0" />
+            <Button fx:id="btDayT0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" />
+            <Button fx:id="btDayW0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" />
+            <Button fx:id="btDayR0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" />
+            <Button fx:id="btDayF0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" />
+            <Button fx:id="btDayM1" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="1" />
+            <Button fx:id="btDayT1" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="btDayW1" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="btDayR1" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button fx:id="btDayF1" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Button fx:id="btDayM2" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="2" />
+            <Button fx:id="btDayT2" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="btDayW2" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="btDayR2" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="btDayF2" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Button fx:id="btDayM3" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="3" />
+            <Button fx:id="btDayM4" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM5" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT5" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT4" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="btDayT3" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW3" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="btDayR3" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button fx:id="btDayF3" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW4" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button fx:id="btDayR4" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="btDayF4" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="50.0" GridPane.columnIndex="6" />
