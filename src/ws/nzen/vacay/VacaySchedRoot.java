@@ -26,26 +26,21 @@ public class VacaySchedRoot extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		// prep the model
-		CalendarByMonth view = new CalendarByMonth();
-		view.start(primaryStage);
+		// TODO prep the model
+		FXMLLoader linker = new FXMLLoader( getClass()
+				.getResource( "CalendarByMonthInput.fxml" ) );
+		Scene theWindow = new Scene( linker.load() );
+		primaryStage.setTitle( "Vacation Scheduler" );
+		primaryStage.setScene(theWindow);
+		dynamicPrepOf( (CalendarByMonth)linker.getController() );
+		primaryStage.show();
 	}
 
-	private boolean wroteFile()
+	private void dynamicPrepOf( CalendarByMonth calControl )
 	{
-		final boolean worked = true;
-		String shoveInWhatever = "Yay, wrote to a file at "
-				+ System.currentTimeMillis() +"\r\n";
-		try (BufferedWriter writer = Files.newBufferedWriter(
-				new File( "worked.txt" ).toPath(),
-				Charset.defaultCharset())) {
-		    writer.write(shoveInWhatever, 0, shoveInWhatever.length());
-		    return worked;
-		} catch (IOException x) {
-		    System.err.format("IOException: %s%n", x);
-		    return ! worked;
-		}
+		// calControl.setInitialDayLabels();
 	}
+
 }
 
 
