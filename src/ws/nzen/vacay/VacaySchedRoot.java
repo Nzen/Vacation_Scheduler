@@ -24,6 +24,8 @@ public class VacaySchedRoot extends Application {
 		launch(args);
 	}
 
+	private Desires enteredInformation;
+
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		// TODO prep the model
@@ -32,12 +34,20 @@ public class VacaySchedRoot extends Application {
 		Scene theWindow = new Scene( linker.load() );
 		primaryStage.setTitle( "Vacation Scheduler" );
 		primaryStage.setScene(theWindow);
+		restoreEnteredDesires();
 		dynamicPrepOf( (CalendarByMonth)linker.getController() );
 		primaryStage.show();
 	}
 
+	// IMPROVE
+	private void restoreEnteredDesires()
+	{
+		enteredInformation = new Desires();
+	}
+
 	private void dynamicPrepOf( CalendarByMonth calControl )
 	{
+		calControl.receiveModel(enteredInformation);
 		// calControl.setInitialDayLabels();
 	}
 

@@ -69,6 +69,9 @@ public class CalendarByMonth {
 	private YearMonth currMonth;
 	private int year = 2016;
 
+	private Desires vacationPreferences = new Desires();
+	// so it doesn't die without receiving; I'd prefer to send it via constructor, but FxmlLoader
+
 	public CalendarByMonth()
 	{
 		controlsThatShowDay = new ArrayList<>( 37 );
@@ -158,7 +161,7 @@ public class CalendarByMonth {
 	public void choseYear( ActionEvent whatHappened )
 	{
 		String selection = cbNavYear.getValue();
-		if ( ! selection.equals("Year") )
+		if ( selection != null && ! selection.equals("Year") )
 		{
 			year = Integer.parseInt(selection);
 		}
@@ -178,11 +181,23 @@ public class CalendarByMonth {
 	public void choseMonth( ActionEvent whatHappened )
 	{
 		String selection = cbNavMonth.getValue();
-		if ( ! selection.equals( "Month" ) )
+		if ( selection != null && ! selection.equals( "Month" ) )
 		{
 			currMonth = YearMonth.of(
 					year, monthIndexFromMonthName( selection ));
-			setInitialDayLabels();
+			refreshMainCalendar();
+		}
+	}
+
+	private void refreshMainCalendar()
+	{
+		prepControlList();
+		List<String> newLabels = vacationPreferences.getLabelsFor(currMonth);
+		int ind = 1; // skip 0
+		for ( String text : newLabels )
+		{
+			controlsThatShowDay.get( ind ).setText( text );
+			ind++;
 		}
 	}
 
@@ -226,7 +241,12 @@ public class CalendarByMonth {
 	{
 		String selected = cbNavMonth.getValue();
 		ObservableList<String> monthList = cbNavMonth.getItems();
-		if ( selected.equals("January") )
+		if ( selected == null || selected.equals( "Month" ) )
+		{
+			// nothing selected, I guess I could say earlier than this yearmonth
+			return;
+		}
+		else if ( selected.equals("January") )
 		{
 			cbNavMonth.setValue( monthList.get( monthList.size() -1 ) );
 		}
@@ -252,6 +272,11 @@ public class CalendarByMonth {
 	public void pressedDay( ActionEvent whatHappened )
 	{
 		
+	} 
+
+	public void receiveModel( Desires peopleAndWhatTheyWant )
+	{
+		vacationPreferences = peopleAndWhatTheyWant;
 	}
 
 }
