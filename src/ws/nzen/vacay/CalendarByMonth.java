@@ -5,7 +5,6 @@ package ws.nzen.vacay;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 /**
  * @author nzen
@@ -23,6 +24,7 @@ import javafx.scene.control.Labeled;
  */
 public class CalendarByMonth {
 
+	static final String cl = "cbm.";
 	@FXML private ComboBox<String> cbNavYear = new ComboBox<>();
 	@FXML private ComboBox<String> cbNavMonth = new ComboBox<>();
 	@FXML private Button btNavEarlier = new Button();
@@ -63,7 +65,11 @@ public class CalendarByMonth {
 	@FXML private Label lDayS4 = new Label();
 	@FXML private Label lDayU4 = new Label();
 	@FXML private Button btDayM5 = new Button();
-	@FXML private Button btDayT5= new Button();
+	@FXML private Button btDayT5 = new Button();
+	@FXML private TextField tfName = new TextField();
+	@FXML private RadioButton rbDoesAdd = new RadioButton();
+	@FXML private RadioButton rbDoesDelete = new RadioButton();
+	// @FXML private ToggleGroup clickConsequence = new ToggleGroup(); // do I need this?
 	private List<Labeled> controlsThatShowDay;
 
 	private YearMonth currMonth;
@@ -120,39 +126,6 @@ public class CalendarByMonth {
 			controlsThatShowDay.add(lDayU4);
 			controlsThatShowDay.add(btDayM5);
 			controlsThatShowDay.add(btDayT5);
-		}
-	}
-
-	public void setInitialDayLabels()
-	{
-		prepControlList();
-		LocalDate firstDayOfMonth = currMonth.atDay( 1 );
-		int oneIndexDayOfWeek = firstDayOfMonth.get( ChronoField.DAY_OF_WEEK );
-		int daysOfMonth = currMonth.lengthOfMonth();
-		int dayToShow = 1;
-		for ( int dayInd = oneIndexDayOfWeek; dayToShow <= daysOfMonth; dayInd++ )
-		{
-			controlsThatShowDay.get(dayInd).setText( Integer.toString(dayToShow) );
-			dayToShow++;
-		}
-		disableDaysOutsideOfMonth( oneIndexDayOfWeek, dayToShow );
-	}
-
-	private void disableDaysOutsideOfMonth( int indexOfStart, int indexOfEnd )
-	{
-		int skipZeroIsInvalidDay = 1;
-		for ( int ind = skipZeroIsInvalidDay; ind < controlsThatShowDay.size(); ind++ )
-		{
-			if ( ind == indexOfStart )
-			{
-				ind = indexOfEnd + indexOfStart -1;
-			}
-			else
-			{
-				Labeled currControl = controlsThatShowDay.get( ind );
-				currControl.setText( ".." );
-				// disable ; but then I need to remember to enable later
-			}
 		}
 	}
 
@@ -237,6 +210,7 @@ public class CalendarByMonth {
 	}
 
 	@FXML
+	/** show and work with the previous month ; wraps rather than increments year */
 	public void pressedNavEarlier( ActionEvent whatHappened )
 	{
 		String selected = cbNavMonth.getValue();
@@ -269,10 +243,94 @@ public class CalendarByMonth {
 		choseMonth( whatHappened );
 	}
 
+	@FXML
+	/** show and work with the next month ; wraps rather than increments year */
+	public void pressedNavLater( ActionEvent whatHappened )
+	{
+		String selected = cbNavMonth.getValue();
+		ObservableList<String> monthList = cbNavMonth.getItems();
+		if ( selected == null || selected.equals( "Month" ) )
+		{
+			// nothing selected, I guess I could say earlier than this yearmonth
+			return;
+		}
+		else if ( selected.equals("December") )
+		{
+			cbNavMonth.setValue( monthList.get( 0 ));
+		}
+		else
+		{
+			String target = "";
+			for ( String mon : monthList )
+			{
+				if ( selected.equals( mon ) )
+				{
+					target = mon;
+				}
+				else if ( ! target.isEmpty() )
+				{
+					target = mon;
+					break;
+				}
+			}
+			cbNavMonth.setValue( target );
+		}
+		choseMonth( whatHappened );
+	}
+
+	/** save or remove info from input panel */
 	public void pressedDay( ActionEvent whatHappened )
 	{
+		String here = cl +"pd ";
+		String maybeName = tfName.getText();
+		if ( maybeName.isEmpty() )
+		{
+			System.out.println( here +"name empty" );
+			return;
+		}
+		// IMPROVE more validation
+		Button pressee = (Button)whatHappened.getSource();
+		LocalDate dateOfComponent = dateFromComponent( pressee );
+		if ( dateOfComponent == null )
+		{
+			return;
+		}
+		if ( rbDoesAdd.isSelected() )
+		{
+			addInfoToDay( dateOfComponent, maybeName );
+		}
+		refreshMainCalendar();
+	}
+
+	private LocalDate dateFromComponent( Button whichBtn )
+	{
+		String here = cl +"dfc ";
+		String nonDayLabel = "..";
+		String btnLabel = whichBtn.getText();
+		if ( btnLabel.equals( nonDayLabel ) )
+		{
+			return null; // likely better to disable them
+		}
+		String dayNumber;
+		if ( btnLabel.contains( " " ) )
+		{
+			int indOfNonNumber = btnLabel.indexOf( ' ' );
+			dayNumber = btnLabel.substring(0, indOfNonNumber);
+		}
+		else
+		{
+			dayNumber = btnLabel;
+		}
+		int dayOfMonth = Integer.parseInt( dayNumber );
+		// assuming nothing went wrong with the day labels
+		return currMonth.atDay(dayOfMonth);
+	}
+
+	private void addInfoToDay( LocalDate dateOfComponent, String name )
+	{
+		vacationPreferences.addPersonName(dateOfComponent, name);
 		
-	} 
+	}
 
 	public void receiveModel( Desires peopleAndWhatTheyWant )
 	{

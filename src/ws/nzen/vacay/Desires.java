@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javafx.scene.control.Labeled;
+import java.util.Map;
 
 /**
  * @author nzen
@@ -17,7 +17,10 @@ import javafx.scene.control.Labeled;
  */
 public class Desires { // VacationCalendar?
 
-	int labelsShown = 37;
+	static final String cl = "d.";
+	private int labelsShown = 37;
+
+	private Map<LocalDate, String> dayToPeople = new HashMap<>();
 
 	public List<String> getLabelsFor( YearMonth aMonth )
 	{
@@ -32,6 +35,7 @@ public class Desires { // VacationCalendar?
 
 	private List<String> applyTheDateLabels( List<String> receivesDays, YearMonth currMonth )
 	{
+		String here = cl +"atdl ";
 		String nonDayLabel = "..";
 		LocalDate firstDayOfMonth = currMonth.atDay( 1 );
 		int indexOfFirstDay = firstDayOfMonth.get( ChronoField.DAY_OF_WEEK ) -1;
@@ -46,8 +50,12 @@ public class Desires { // VacationCalendar?
 			else
 			{
 				LocalDate currDay = currMonth.atDay( dayToShow );
-				receivesDays.add(Integer.toString( dayToShow )
-						+" "+ desireFor( currDay ) );
+				String labelText = Integer.toString( dayToShow );
+				String allocators = desireFor( currDay );
+				
+				if ( ! allocators.isEmpty() )
+					labelText += " "+ allocators;
+				receivesDays.add( labelText );
 				dayToShow++;
 			}
 		}
@@ -56,13 +64,11 @@ public class Desires { // VacationCalendar?
 
 	private String desireFor( LocalDate when )
 	{
-		int dayOfWeek = when.get(ChronoField.DAY_OF_WEEK); 
-		if ( dayOfWeek % 3 == 0 )
-			return "BE,NN"; // FIX search a map for this
-		else if ( dayOfWeek % 5 == 0 )
-			return "BE";
-		else
+		String savedPeople = dayToPeople.get(when);
+		if ( savedPeople == null )
 			return "";
+		else
+			return savedPeople;
 	}
 
 	/*
@@ -70,6 +76,20 @@ public class Desires { // VacationCalendar?
 		their desires
 	view model ? or is that calculated on the fly ?
 	*/
+
+	/** likely will supplant,evolve from this */
+	public void addPersonName( LocalDate when, String name )
+	{
+		if ( when == null || name == null || name.isEmpty() )
+			return;
+		else if ( dayToPeople.containsKey(when) )
+		{
+			String aggregatedName = dayToPeople.get(when) +", "+ name;
+			dayToPeople.put(when, aggregatedName);
+		}
+		else
+			dayToPeople.put(when, name);
+	}
 
 }
 

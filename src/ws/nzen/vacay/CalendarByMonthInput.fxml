@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -36,33 +37,33 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btDayT0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" />
-            <Button fx:id="btDayW0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" />
-            <Button fx:id="btDayR0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" />
-            <Button fx:id="btDayF0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" />
-            <Button fx:id="btDayM1" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="1" />
-            <Button fx:id="btDayT1" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="btDayW1" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button fx:id="btDayR1" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button fx:id="btDayF1" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Button fx:id="btDayM2" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="2" />
-            <Button fx:id="btDayT2" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="btDayW2" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button fx:id="btDayR2" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Button fx:id="btDayF2" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Button fx:id="btDayM3" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="3" />
-            <Button fx:id="btDayM4" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="4" />
-            <Button fx:id="btDayM5" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="5" />
-            <Button fx:id="btDayT5" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Button fx:id="btDayT4" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Button fx:id="btDayT3" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="btDayW3" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Button fx:id="btDayR3" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Button fx:id="btDayF3" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Button fx:id="btDayW4" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-            <Button fx:id="btDayR4" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Button fx:id="btDayF4" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Button fx:id="btDayM0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" />
+            <Button fx:id="btDayT0" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" />
+            <Button fx:id="btDayW0" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" />
+            <Button fx:id="btDayR0" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" />
+            <Button fx:id="btDayF0" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" />
+            <Button fx:id="btDayM1" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="1" />
+            <Button fx:id="btDayT1" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="btDayW1" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="btDayR1" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button fx:id="btDayF1" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Button fx:id="btDayM2" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="2" />
+            <Button fx:id="btDayT2" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="btDayW2" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button fx:id="btDayR2" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="btDayF2" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Button fx:id="btDayM3" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="3" />
+            <Button fx:id="btDayM4" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM5" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT5" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="btDayT4" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Button fx:id="btDayT3" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW3" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="btDayR3" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button fx:id="btDayF3" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Button fx:id="btDayW4" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button fx:id="btDayR4" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Button fx:id="btDayF4" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Button fx:id="btDayM0" mnemonicParsing="false" onAction="#pressedDay" prefHeight="50.0" prefWidth="100.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="100.0" GridPane.columnIndex="5" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="50.0" stroke="BLACK" strokeType="INSIDE" width="90.0" GridPane.columnIndex="6" />
@@ -135,7 +136,7 @@
       				</items>
                   </ComboBox>
                   <Button fx:id="btNavEarlier" mnemonicParsing="false" onAction="#pressedNavEarlier" text="Earlier" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="btNavLater" mnemonicParsing="false" text="Later" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btNavLater" mnemonicParsing="false" onAction="#pressedNavLater" text="Later" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane fx:id="gpInputModifiers" prefHeight="100.0" prefWidth="477.0" style="-fx-background-color: #fbf;">
@@ -160,8 +161,11 @@
                   <TextField fx:id="tfName" GridPane.rowIndex="1" />
                   <TextField fx:id="tfSeniority" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="tfDesire" disable="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <RadioButton fx:id="rbDoesAdd" mnemonicParsing="false" selected="true" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <RadioButton fx:id="rbDoesDelete" mnemonicParsing="false" text="Delete" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <RadioButton fx:id="rbDoesAdd" mnemonicParsing="false" selected="true" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="clickMode" />
+                     </toggleGroup></RadioButton>
+                  <RadioButton fx:id="rbDoesDelete" mnemonicParsing="false" text="Delete" toggleGroup="$clickMode" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                   <Label fx:id="lSaysClick" text="Click does :" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="btSave" disable="true" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Button fx:id="btRestore" disable="true" mnemonicParsing="false" text="Restore" GridPane.columnIndex="3" GridPane.rowIndex="3" />
