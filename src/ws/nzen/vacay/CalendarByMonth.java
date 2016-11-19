@@ -4,9 +4,12 @@
 package ws.nzen.vacay;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,12 +72,10 @@ public class CalendarByMonth {
 	@FXML private TextField tfName = new TextField();
 	@FXML private RadioButton rbDoesAdd = new RadioButton();
 	@FXML private RadioButton rbDoesDelete = new RadioButton();
-	// @FXML private ToggleGroup clickConsequence = new ToggleGroup(); // do I need this?
-	private List<Labeled> controlsThatShowDay;
 
+	private List<Labeled> controlsThatShowDay;
 	private YearMonth currMonth;
 	private int year = 2016;
-
 	private Desires vacationPreferences = new Desires();
 	// so it doesn't die without receiving; I'd prefer to send it via constructor, but FxmlLoader
 
@@ -88,7 +89,7 @@ public class CalendarByMonth {
 	{
 		if ( controlsThatShowDay.isEmpty() )
 		{
-			controlsThatShowDay.add(btNavEarlier); // ignorable convenience trades heap for math
+			controlsThatShowDay.add(btNavEarlier); // ignored, convenience for math
 			controlsThatShowDay.add(btDayM0);
 			controlsThatShowDay.add(btDayT0);
 			controlsThatShowDay.add(btDayW0);
@@ -156,8 +157,8 @@ public class CalendarByMonth {
 		String selection = cbNavMonth.getValue();
 		if ( selection != null && ! selection.equals( "Month" ) )
 		{
-			currMonth = YearMonth.of(
-					year, monthIndexFromMonthName( selection ));
+			currMonth = YearMonth.of( year,
+					Month.valueOf(selection.toUpperCase()) );
 			refreshMainCalendar();
 		}
 	}
@@ -174,79 +175,25 @@ public class CalendarByMonth {
 		}
 	}
 
-	/** if I made them all caps, I could use the enum Month.valueOf() */
-	private int monthIndexFromMonthName( String monthName )
-	{
-		// IMPROVE getItems() and find the index +1
-		switch ( monthName )
-		{
-		case "January" :
-			return 1;
-		case "February" :
-			return 2;
-		case "March" :
-			return 3;
-		case "April" :
-			return 4;
-		case "May" :
-			return 5;
-		case "June" :
-			return 6;
-		case "July" :
-			return 7;
-		case "August" :
-			return 8;
-		case "September" :
-			return 9;
-		case "October" :
-			return 10;
-		case "November" :
-			return 11;
-		case "December" :
-			return 12;
-		default :
-			return 0;
-		}
-	}
-
 	@FXML
 	/** show and work with the previous month ; wraps rather than increments year */
 	public void pressedNavEarlier( ActionEvent whatHappened )
 	{
-		String selected = cbNavMonth.getValue();
-		ObservableList<String> monthList = cbNavMonth.getItems();
-		if ( selected == null || selected.equals( "Month" ) )
-		{
-			// nothing selected, I guess I could say earlier than this yearmonth
-			return;
-		}
-		else if ( selected.equals("January") )
-		{
-			cbNavMonth.setValue( monthList.get( monthList.size() -1 ) );
-		}
-		else
-		{
-			String previous = "";
-			for ( String mon : monthList )
-			{
-				if ( selected.equals( previous ) )
-				{
-					break;
-				}
-				else
-				{
-					previous = mon;
-				}
-			}
-			cbNavMonth.setValue( previous );
-		}
-		choseMonth( whatHappened );
+		int earlier = 1;
+		pressedNavDirection( earlier, whatHappened );
 	}
 
 	@FXML
 	/** show and work with the next month ; wraps rather than increments year */
 	public void pressedNavLater( ActionEvent whatHappened )
 	{
+		int earlier = -1;
+		pressedNavDirection( earlier, whatHappened );
+	}
+
+	/** change nav to the month that is current selection minus magnitude */
+	private void pressedNavDirection( int magnitude, ActionEvent whatHappened )
+	{
 		String selected = cbNavMonth.getValue();
 		ObservableList<String> monthList = cbNavMonth.getItems();
 		if ( selected == null || selected.equals( "Month" ) )
@@ -254,26 +201,10 @@ public class CalendarByMonth {
 			// nothing selected, I guess I could say earlier than this yearmonth
 			return;
 		}
-		else if ( selected.equals("December") )
-		{
-			cbNavMonth.setValue( monthList.get( 0 ));
-		}
 		else
 		{
-			String target = "";
-			for ( String mon : monthList )
-			{
-				if ( selected.equals( mon ) )
-				{
-					target = mon;
-				}
-				else if ( ! target.isEmpty() )
-				{
-					target = mon;
-					break;
-				}
-			}
-			cbNavMonth.setValue( target );
+			cbNavMonth.setValue( Month.valueOf(selected.toUpperCase()).minus( magnitude )
+					.getDisplayName(TextStyle.FULL, Locale.getDefault()) );
 		}
 		choseMonth( whatHappened );
 	}
