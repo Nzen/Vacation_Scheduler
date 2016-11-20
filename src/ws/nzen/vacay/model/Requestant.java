@@ -17,25 +17,18 @@ public class Requestant implements Serializable
 
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private int seniority;
 	private ArrayList< HashSet<LocalDate> > requestedDays;
 
-	public Requestant( String appelation, int priority )
+	public Requestant( String appelation )
 	{
 		name = appelation;
-		seniority = priority;
 		requestedDays = new ArrayList< HashSet<LocalDate> >();
 	}
 
+	// IMPROVE return boolean : whether add did anything 
 	public void addDay( int care, LocalDate when )
 	{
-		if ( care > requestedDays.size() )
-		{
-			for ( int ind = requestedDays.size(); ind < care; ind++ )
-			{
-				requestedDays.add( null );
-			}
-		}
+		ensureSpaceFor( care );
 		HashSet<LocalDate> previousRequests = requestedDays.get( care );
 		if ( previousRequests == null )
 		{
@@ -46,6 +39,18 @@ public class Requestant implements Serializable
 		else
 		{
 			previousRequests.add( when );
+		}
+	}
+
+	private void ensureSpaceFor( int desire )
+	{
+		if ( desire >= requestedDays.size() )
+		{
+			// make spots for spaces in between
+			for ( int ind = requestedDays.size(); ind <= desire; ind++ )
+			{
+				requestedDays.add( null );
+			}
 		}
 	}
 
@@ -74,16 +79,6 @@ public class Requestant implements Serializable
 	public void setName( String name )
 	{
 		this.name = name;
-	}
-
-	public int getSeniority()
-	{
-		return seniority;
-	}
-
-	public void setSeniority( int seniority )
-	{
-		this.seniority = seniority;
 	}
 
 }

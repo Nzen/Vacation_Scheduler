@@ -14,12 +14,18 @@ import java.util.Locale;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import ws.nzen.vacay.Desires.RequestViability;
 
 /** @author nzen */
 public class CalendarByMonth
@@ -111,10 +117,21 @@ public class CalendarByMonth
 	@FXML
 	private TextField tfName = new TextField();
 	@FXML
+	private TextField tfSeniority = new TextField();
+	@FXML
+	private TextField tfDesire = new TextField();
+	@FXML
 	private RadioButton rbDoesAdd = new RadioButton();
 	@FXML
 	private RadioButton rbDoesDelete = new RadioButton();
-
+/*
+	@FXML
+	private Button btSave = new Button();
+	@FXML
+	private Button btRestore = new Button();
+	@FXML
+	private Button btExport = new Button();
+*/
 	private List<Labeled> controlsThatShowDay;
 	private YearMonth currMonth;
 	private int year = 2016;
@@ -258,13 +275,48 @@ public class CalendarByMonth
 	public void pressedDay( ActionEvent whatHappened )
 	{
 		String here = cl + "pd ";
+		if ( someReasonToIgnoreDayPress() )
+			return;
 		String maybeName = tfName.getText();
-		if ( maybeName.isEmpty() )
+		if ( maybeName == null || maybeName.isEmpty() )
 		{
 			System.out.println( here + "name empty" );
 			return;
 		}
-		// IMPROVE more validation
+		String maybeSenior = tfSeniority.getText();
+		if ( maybeSenior == null || maybeSenior.isEmpty() )
+		{
+			System.out.println( here + "seniority empty" );
+			return;
+		}
+		String maybeDesire = tfDesire.getText();
+		if ( maybeDesire == null || maybeDesire.isEmpty() )
+		{
+			System.out.println( here + "desire empty" );
+			return;
+		}
+		int seniority, desirability;
+		boolean failedForSenior = true;
+		try
+		{
+			seniority = Integer.parseUnsignedInt( maybeSenior ) -1;
+			failedForSenior = false;
+			desirability = Integer.parseUnsignedInt( maybeDesire ) -1;
+		}
+		catch ( NumberFormatException nfe )
+		{
+			String whyFail;
+			if ( failedForSenior )
+			{
+				whyFail = maybeSenior +" isnt a valid number for seniority";
+			}
+			else
+			{
+				whyFail = maybeDesire +" isnt a valid number for desirability";
+			}
+			new Alert( Alert.AlertType.WARNING, whyFail ).show();
+			return;
+		}
 		Button pressee = (Button) whatHappened.getSource();
 		LocalDate dateOfComponent = dateFromComponent( pressee );
 		if ( dateOfComponent == null )
@@ -273,9 +325,34 @@ public class CalendarByMonth
 		}
 		if ( rbDoesAdd.isSelected() )
 		{
-			addInfoToDay( dateOfComponent, maybeName );
+			addRequest( dateOfComponent, maybeName, seniority, desirability );
+		}
+		else
+		{
+			// remove()
+			return;
 		}
 		refreshMainCalendar();
+	}
+
+	public boolean someReasonToIgnoreDayPress()
+	{
+		final boolean problem = true;
+		String here = cl + "srtidp ";
+		String selection = cbNavYear.getValue();
+		if ( selection == null || selection.equals( "Year" ) )
+		{
+			System.out.println( here + "hasn't chosen year" );
+			return problem;
+		}
+		selection = cbNavMonth.getValue();
+		if ( selection == null || selection.equals( "Month" ) )
+		{
+			System.out.println( here + "hasn't chosen month" );
+			return problem;
+		}
+		// IMPROVE more validation
+		return ! problem;
 	}
 
 	private LocalDate dateFromComponent( Button whichBtn )
@@ -302,10 +379,77 @@ public class CalendarByMonth
 		return currMonth.atDay( dayOfMonth );
 	}
 
-	private void addInfoToDay( LocalDate dateOfComponent, String name )
+	private void addRequest( LocalDate when, String name,
+			int seniority, int desirability )
 	{
-		vacationPreferences.addPersonName( dateOfComponent, name );
-
+		RequestViability addability = vacationPreferences
+				.requestChangesSeniority( name, seniority );
+		if ( addability == RequestViability.inoffensive )
+		{
+			vacationPreferences.addRequest( name, seniority, desirability, when );
+		}
+		else
+		{
+			String whatToAsk = "";
+			if ( addability == RequestViability.displacesAnother )
+			{
+				boolean overwrite = true;
+				whatToAsk = "Person exists at "+ (seniority +1)
+						+"\nOverwrite or Swap?";
+				Alert dialogRequest = new Alert(
+						Alert.AlertType.CONFIRMATION,
+						whatToAsk,
+						ButtonType.APPLY,
+						new ButtonType( "Swap",
+								ButtonData.NEXT_FORWARD ),
+						ButtonType.CANCEL );
+				dialogRequest.showAndWait()
+					.ifPresent( 
+						response -> {
+							if ( response == ButtonType.APPLY )
+							{
+								vacationPreferences.addRequest(
+										name, seniority, desirability, when,
+										overwrite );
+							}
+							else if ( response == ButtonType.CANCEL )
+							{
+								return;
+							}
+							else // it's swap
+							{
+								vacationPreferences.addRequest(
+										name, seniority, desirability, when,
+										! overwrite );
+							}
+						}
+					);
+			}
+			else
+			{
+				// must be Rv.movesPerson
+				whatToAsk = "Move "+ name +" to new seniority ?";
+				Alert dialogRequest = new Alert(
+						AlertType.CONFIRMATION, whatToAsk,
+						ButtonType.YES, ButtonType.NO );
+				dialogRequest.showAndWait()
+					.ifPresent( 
+						response -> {
+							if ( response == ButtonType.YES )
+							{
+								vacationPreferences.addRequest(
+										name, seniority, desirability, when );
+							}
+							else
+							{
+								return;
+							}
+						}
+					);
+			}
+			
+		}
+		
 	}
 
 	public void receiveModel( Desires peopleAndWhatTheyWant )
@@ -314,3 +458,24 @@ public class CalendarByMonth
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

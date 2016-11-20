@@ -159,8 +159,8 @@
                   <Label fx:id="lSaysSeniorness" text="Seniority" GridPane.columnIndex="2" />
                   <Label fx:id="lSaysDesirability" text="Desire" GridPane.columnIndex="4" />
                   <TextField fx:id="tfName" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfSeniority" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfDesire" disable="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfSeniority" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfDesire" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                   <RadioButton fx:id="rbDoesAdd" mnemonicParsing="false" selected="true" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <toggleGroup>
                         <ToggleGroup fx:id="clickMode" />
