@@ -3,11 +3,19 @@
  */
 package ws.nzen.vacay;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +28,7 @@ public class Desires
 
 	static final String cl = "d.";
 	private int labelsShown = 37;
+	private String persistedFilename = "people.ser";
 
 	enum RequestViability
 	{
@@ -42,7 +51,6 @@ public class Desires
 	private List<String> applyTheDateLabels( List<String> receivesDays,
 			YearMonth currMonth )
 	{
-		String here = cl + "atdl ";
 		String nonDayLabel = "..";
 		LocalDate firstDayOfMonth = currMonth.atDay( 1 );
 		int indexOfFirstDay = firstDayOfMonth.get( ChronoField.DAY_OF_WEEK )
@@ -62,9 +70,7 @@ public class Desires
 				String allocators = desireFor( currDay );
 
 				if ( ! allocators.isEmpty() )
-				//{
 					labelText += " " + allocators;
-					//System.out.println( labelText );}
 				receivesDays.add( labelText );
 				dayToShow++;
 			}
@@ -241,6 +247,79 @@ public class Desires
 			int desirability, LocalDate when )
 	{
 		System.err.println( cl +"rr not implemented yet" );
+	}
+
+	public void persist()
+	{
+		final String here = cl + "p ";
+		Requestant[] flatPeople = people.toArray( new Requestant[ people.size() ] );
+		try ( FileOutputStream fos = new FileOutputStream( persistedFilename );
+				ObjectOutputStream oos = new ObjectOutputStream(fos); )
+		{
+			oos.writeObject( flatPeople );
+		}
+		catch ( IOException ioe )
+		{
+			System.out.println( here +"couldn't persist people" );
+		}
+	}
+
+	public boolean restorePersisted()
+	{
+		final String here = cl + "rp ";
+		final boolean worked = true;
+		try ( FileInputStream fis = new FileInputStream( persistedFilename );
+				ObjectInputStream ois = new ObjectInputStream(fis); )
+		{
+			Requestant[] flatPeople = (Requestant[])ois.readObject();
+			if ( people != null )
+				people.clear();
+			else
+				people = new ArrayList<>( flatPeople.length );
+			if ( dayToPeople != null )
+				dayToPeople.clear();
+			else
+				dayToPeople = new HashMap<LocalDate, List<Requestant>>();
+			for ( Requestant aPersonDesires : flatPeople )
+			{
+				people.add( (Requestant)aPersonDesires );
+				Iterator<HashSet<LocalDate>> when = aPersonDesires.getDaysOf();
+				while ( when.hasNext() )
+				{
+					Iterator<LocalDate> whenOfLevel = when.next().iterator();
+					while ( whenOfLevel.hasNext() )
+					{
+						LocalDate exactlyWhen = whenOfLevel.next();
+						// FIX I'm going to have to do this again, for real, when I have a constrainer
+						List<Requestant> reservees = dayToPeople.get( whenOfLevel );
+						if ( reservees == null )
+						{
+							reservees = new ArrayList<>();
+						}
+						reservees.add( aPersonDesires );
+						dayToPeople.put( exactlyWhen, reservees );
+					}
+				}
+			}
+			return worked;
+		}
+		catch ( FileNotFoundException e )
+		{
+			System.out.println( here +"no persisted people file" );
+		}
+		catch ( IOException e )
+		{
+			System.out.println( here +"no persisted people file" );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			System.out.println( here +"restored from a non-people package?" );
+		}
+		catch ( ClassCastException e )
+		{
+			System.out.println( here +"restored from a non-people file" );
+		}
+		return ! worked;
 	}
 
 }

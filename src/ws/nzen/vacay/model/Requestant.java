@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @author nzen
@@ -69,6 +71,11 @@ public class Requestant implements Serializable
 		{
 			previousRequests.remove( when );
 		}
+	}
+
+	public Iterator<HashSet<LocalDate>> getDaysOf()
+	{
+		return requestedDays.iterator();
 	}
 
 	public String getName()
