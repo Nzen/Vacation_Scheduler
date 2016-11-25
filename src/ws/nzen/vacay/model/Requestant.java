@@ -73,9 +73,25 @@ public class Requestant implements Serializable
 		}
 	}
 
+	@Deprecated
 	public Iterator<HashSet<LocalDate>> getDaysOf()
 	{
 		return requestedDays.iterator();
+	}
+
+	/** set of days of that level or null */
+	public Set<LocalDate> getDaysOfLevel( int desirability )
+	{
+		desirability -= 1; // for zero index
+		if ( desirability > requestedDays.size() )
+			return null;
+		else
+			return requestedDays.get( desirability );
+	}
+
+	public int getLevelsOfDesire()
+	{
+		return requestedDays.size();
 	}
 
 	public String getName()

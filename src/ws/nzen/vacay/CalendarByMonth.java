@@ -124,6 +124,10 @@ public class CalendarByMonth
 	private RadioButton rbDoesAdd = new RadioButton();
 	@FXML
 	private RadioButton rbDoesDelete = new RadioButton();
+	@FXML
+	private Button btbtSave = new Button();
+	@FXML
+	private Button btRestore = new Button();
 /*
 	@FXML
 	private Button btSave = new Button();
@@ -194,7 +198,7 @@ public class CalendarByMonth
 	public void choseYear( ActionEvent whatHappened )
 	{
 		String selection = cbNavYear.getValue();
-		if ( selection != null && ! selection.equals( "Year" ) )
+		if ( ! presentTimeNotSelected( selection, true ) ) // IMPROVE define ptnsYear once
 		{
 			year = Integer.parseInt( selection );
 		}
@@ -215,7 +219,7 @@ public class CalendarByMonth
 	public void choseMonth( ActionEvent whatHappened )
 	{
 		String selection = cbNavMonth.getValue();
-		if ( selection != null && ! selection.equals( "Month" ) )
+		if ( ! presentTimeNotSelected( selection, false ) )
 		{
 			currMonth = YearMonth.of( year,
 					Month.valueOf( selection.toUpperCase() ) );
@@ -256,9 +260,9 @@ public class CalendarByMonth
 	{
 		String selected = cbNavMonth.getValue();
 		ObservableList<String> monthList = cbNavMonth.getItems();
-		if ( selected == null || selected.equals( "Month" ) )
+		if ( presentTimeNotSelected( selected, false ) )
 		{
-			// nothing selected, I guess I could say earlier than this yearmonth
+			// ASK nothing selected, I guess I could say earlier than this yearmonth
 			return;
 		}
 		else
@@ -277,24 +281,32 @@ public class CalendarByMonth
 		String here = cl + "pd ";
 		if ( someReasonToIgnoreDayPress() )
 			return;
+		boolean emptyInput = false;
 		String maybeName = tfName.getText();
+		
 		if ( maybeName == null || maybeName.isEmpty() )
 		{
 			System.out.println( here + "name empty" );
-			return;
+			tfName.setText( "!needed!" );
+			// IMPROVE make the background red, but then de-red it if it passes
+			emptyInput = true;
 		}
 		String maybeSenior = tfSeniority.getText();
 		if ( maybeSenior == null || maybeSenior.isEmpty() )
 		{
 			System.out.println( here + "seniority empty" );
-			return;
+			tfSeniority.setText( "!needed!" );
+			emptyInput = true;
 		}
 		String maybeDesire = tfDesire.getText();
 		if ( maybeDesire == null || maybeDesire.isEmpty() )
 		{
 			System.out.println( here + "desire empty" );
-			return;
+			tfDesire.setText( "!needed!" );
+			emptyInput = true;
 		}
+		if ( emptyInput )
+			return; // NOTE suppressed to here so I highlight several problems
 		int seniority, desirability;
 		boolean failedForSenior = true;
 		try
@@ -339,20 +351,28 @@ public class CalendarByMonth
 	{
 		final boolean problem = true;
 		String here = cl + "srtidp ";
+		final boolean year = true;
 		String selection = cbNavYear.getValue();
-		if ( selection == null || selection.equals( "Year" ) )
+		if ( presentTimeNotSelected( selection, year ) )
 		{
 			System.out.println( here + "hasn't chosen year" );
 			return problem;
 		}
 		selection = cbNavMonth.getValue();
-		if ( selection == null || selection.equals( "Month" ) )
+		if ( presentTimeNotSelected( selection, ! year ) )
 		{
 			System.out.println( here + "hasn't chosen month" );
 			return problem;
 		}
 		// IMPROVE more validation
 		return ! problem;
+	}
+
+	/** is the requested combobox in the default, unselected state ? */
+	private boolean presentTimeNotSelected( String selection, boolean iMeanTheYear )
+	{
+		String defaultText = ( iMeanTheYear ) ? "Year": "Month";
+		return selection == null || selection.equals( defaultText );
 	}
 
 	private LocalDate dateFromComponent( Button whichBtn )
@@ -394,7 +414,7 @@ public class CalendarByMonth
 			if ( addability == RequestViability.displacesAnother )
 			{
 				boolean overwrite = true;
-				whatToAsk = "Person exists at "+ (seniority +1)
+				whatToAsk = "Another person exists at "+ (seniority +1)
 						+"\nOverwrite or Swap?";
 				Alert dialogRequest = new Alert(
 						Alert.AlertType.CONFIRMATION,
@@ -452,12 +472,55 @@ public class CalendarByMonth
 		
 	}
 
+	/**  */
+	public void pressedSave( ActionEvent whatHappened )
+	{
+		String selectedYear = cbNavYear.getValue();
+		String selectedMonth = cbNavMonth.getValue();
+		if ( presentTimeNotSelected( selectedYear, true )
+			|| presentTimeNotSelected( selectedMonth, false ) )
+		{
+			Alert reportNoRestoration = new Alert( AlertType.ERROR );
+			reportNoRestoration.setContentText(
+					"Nothing to save yet, dude" );
+		}
+		else
+		{
+			vacationPreferences.persist();
+		}
+	}
+
+	/**  */
+	public void pressedRestore( ActionEvent whatHappened )
+	{
+		boolean worked = vacationPreferences.restorePersisted();
+		if ( ! worked )
+		{
+			Alert reportNoRestoration = new Alert( AlertType.ERROR );
+			reportNoRestoration.setContentText(
+					"Unable to restore previous session" );
+		}
+	}
+
+	/**  */
 	public void receiveModel( Desires peopleAndWhatTheyWant )
 	{
 		vacationPreferences = peopleAndWhatTheyWant;
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
