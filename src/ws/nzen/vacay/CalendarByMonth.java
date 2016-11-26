@@ -3,10 +3,16 @@
  */
 package ws.nzen.vacay;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +32,8 @@ import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import ws.nzen.vacay.Desires.RequestViability;
+import ws.nzen.vacay.model.CalendarUi;
+import ws.nzen.vacay.model.Requestant;
 
 /** @author nzen */
 public class CalendarByMonth
@@ -141,6 +149,7 @@ public class CalendarByMonth
 	private int year = 2016;
 	private Desires vacationPreferences = new Desires();
 	// so it doesn't die without receiving; I'd prefer to send it via constructor, but FxmlLoader
+	private String persistedFilename = "ui.ser";
 
 	public CalendarByMonth()
 	{
@@ -488,6 +497,33 @@ public class CalendarByMonth
 		{
 			vacationPreferences.persist();
 		}
+		persistUi();
+	}
+
+	/** save current values */
+	private void persistUi()
+	{
+		final String here = cl + "pu ";
+		String name = beBlankNotNull( tfName.getText() );
+		String senior = beBlankNotNull( tfSeniority.getText() );
+		String desire = beBlankNotNull( tfDesire.getText() );
+		Boolean amAdding = rbDoesAdd.isSelected();
+		CalendarUi ui = new CalendarUi( currMonth, name, senior, desire, amAdding );
+		try ( FileOutputStream fos = new FileOutputStream( persistedFilename );
+				ObjectOutputStream oos = new ObjectOutputStream(fos); )
+		{
+			oos.writeObject( ui );
+		}
+		catch ( IOException ioe )
+		{
+			System.out.println( here +"couldn't persist ui because "
+					+ ioe );
+		}
+	}
+
+	private String beBlankNotNull( String whatever )
+	{
+		return ( whatever == null ) ? "" : whatever;
 	}
 
 	/**  */
@@ -500,6 +536,52 @@ public class CalendarByMonth
 			reportNoRestoration.setContentText(
 					"Unable to restore previous session" );
 		}
+		restoreUi();
+		choseMonth( whatHappened );
+	}
+
+	/**  */
+	private boolean restoreUi()
+	{
+		final String here = cl + "rp ";
+		final boolean worked = true;
+		try ( FileInputStream fis = new FileInputStream( persistedFilename );
+				ObjectInputStream ois = new ObjectInputStream(fis); )
+		{
+			CalendarUi savedInput = (CalendarUi) ois.readObject();
+			tfName.setText( savedInput.getPersonName() );
+			tfSeniority.setText( savedInput.getSeniorityVal() );
+			tfDesire.setText( savedInput.getDesireVal() );
+			rbDoesAdd.setSelected( savedInput.isRadioAdd() );
+			rbDoesDelete.setSelected( ! savedInput.isRadioAdd() );
+			YearMonth maybeDateRange = savedInput.getCurrentMonth();
+			if ( maybeDateRange != null )
+			{
+				currMonth = maybeDateRange;
+				restoreYearMonthSelections();
+			}
+		}
+		catch ( IOException ie )
+		{
+			System.err.println( here +"inaccessible persisted ui file"
+					+ " because "+ ie );
+		}
+		catch ( ClassNotFoundException cne )
+		{
+			System.err.println( here +"restored from a non-ui package?"
+					+ "\n fail because "+ cne );
+		}
+		return false;
+	}
+
+	/**  */
+	private void restoreYearMonthSelections()
+	{
+		// assert currMonth != null
+		year = currMonth.get( ChronoField.YEAR );
+		cbNavYear.setValue( Integer.toString( year ) );
+		cbNavMonth.setValue( Month.of( currMonth.getMonthValue() )
+				.getDisplayName( TextStyle.FULL, Locale.getDefault() ) );
 	}
 
 	/**  */

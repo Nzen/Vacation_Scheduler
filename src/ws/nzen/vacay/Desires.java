@@ -252,6 +252,11 @@ public class Desires
 	public void persist()
 	{
 		final String here = cl + "p ";
+		if ( people.size() < 1 )
+		{
+			System.out.println( here +"nothing to save yet" );
+			return; // ASK alert? it seems heavy handed
+		}
 		Requestant[] flatPeople = people.toArray( new Requestant[ people.size() ] );
 		try ( FileOutputStream fos = new FileOutputStream( persistedFilename );
 				ObjectOutputStream oos = new ObjectOutputStream(fos); )
@@ -260,7 +265,8 @@ public class Desires
 		}
 		catch ( IOException ioe )
 		{
-			System.out.println( here +"couldn't persist people" );
+			System.out.println( here +"couldn't persist people because "
+					+ ioe );
 		}
 	}
 
@@ -272,6 +278,8 @@ public class Desires
 				ObjectInputStream ois = new ObjectInputStream(fis); )
 		{
 			Requestant[] flatPeople = (Requestant[])ois.readObject();
+			if ( flatPeople == null )
+				return ! worked;
 			if ( people != null )
 				people.clear();
 			else
@@ -303,21 +311,25 @@ public class Desires
 			}
 			return worked;
 		}
-		catch ( FileNotFoundException e )
+		catch ( FileNotFoundException fnfe )
 		{
-			System.out.println( here +"no persisted people file" );
+			System.err.println( here +"no persisted people file"
+					+ " because "+ fnfe );
 		}
-		catch ( IOException e )
+		catch ( IOException ie )
 		{
-			System.out.println( here +"no persisted people file" );
+			System.err.println( here +"inaccessible persisted people file"
+					+ " because "+ ie );
 		}
-		catch ( ClassNotFoundException e )
+		catch ( ClassNotFoundException cne )
 		{
-			System.out.println( here +"restored from a non-people package?" );
+			System.err.println( here +"restored from a non-people package?"
+					+ "\n fail because "+ cne );
 		}
-		catch ( ClassCastException e )
+		catch ( ClassCastException cce )
 		{
-			System.out.println( here +"restored from a non-people file" );
+			System.err.println( here +"restored from a non-people file"
+					+ "\n fail because "+ cce );
 		}
 		return ! worked;
 	}
