@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import ws.nzen.vacay.model.Requestant;
+import ws.nzen.vacay.model.Settings;
 
 /** @author nzen */
 public class Desires
@@ -29,6 +30,7 @@ public class Desires
 	static final String cl = "d.";
 	private int labelsShown = 37;
 	private String persistedFilename = "people.ser";
+	private Settings userConfig = new Settings();
 
 	enum RequestViability
 	{
@@ -67,6 +69,10 @@ public class Desires
 			{
 				LocalDate currDay = currMonth.atDay( dayToShow );
 				String labelText = Integer.toString( dayToShow );
+				if ( userConfig.isHoliday( currDay ) )
+				{
+					labelText += " Holiday";
+				}
 				String allocators = desireFor( currDay );
 
 				if ( ! allocators.isEmpty() )
@@ -332,6 +338,12 @@ public class Desires
 					+ "\n fail because "+ cce );
 		}
 		return ! worked;
+	}
+
+	public void receiveSettings( Settings settingsGathered )
+	{
+		if ( settingsGathered != null )
+			userConfig = settingsGathered;
 	}
 
 }

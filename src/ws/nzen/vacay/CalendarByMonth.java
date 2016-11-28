@@ -23,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -33,7 +32,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import ws.nzen.vacay.Desires.RequestViability;
 import ws.nzen.vacay.model.CalendarUi;
-import ws.nzen.vacay.model.Requestant;
+import ws.nzen.vacay.model.Settings;
 
 /** @author nzen */
 public class CalendarByMonth
@@ -148,6 +147,7 @@ public class CalendarByMonth
 	private YearMonth currMonth;
 	private int year = 2016;
 	private Desires vacationPreferences = new Desires();
+	private Settings userConfig = new Settings();
 	// so it doesn't die without receiving; I'd prefer to send it via constructor, but FxmlLoader
 	private String persistedFilename = "ui.ser";
 
@@ -585,9 +585,13 @@ public class CalendarByMonth
 	}
 
 	/**  */
-	public void receiveModel( Desires peopleAndWhatTheyWant )
+	public void receiveModel( Desires peopleAndWhatTheyWant,
+			Settings settingsGathered )
 	{
-		vacationPreferences = peopleAndWhatTheyWant;
+		if ( peopleAndWhatTheyWant != null )
+			vacationPreferences = peopleAndWhatTheyWant;
+		if ( settingsGathered != null )
+			userConfig = settingsGathered;
 	}
 
 }

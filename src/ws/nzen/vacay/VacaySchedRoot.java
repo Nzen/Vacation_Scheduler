@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ws.nzen.vacay.model.Settings;
 
 public class VacaySchedRoot extends Application
 {
@@ -16,6 +17,7 @@ public class VacaySchedRoot extends Application
 	}
 
 	private Desires enteredInformation;
+	private Settings userConfig;
 
 	@Override
 	public void start( Stage primaryStage ) throws IOException
@@ -26,21 +28,29 @@ public class VacaySchedRoot extends Application
 		Scene theWindow = new Scene( linker.load() );
 		primaryStage.setTitle( "Vacation Scheduler" );
 		primaryStage.setScene( theWindow );
+		probeForSettings();
 		restoreEnteredDesires();
 		dynamicPrepOf( (CalendarByMonth) linker.getController() );
 		primaryStage.show();
 	}
 
-	// IMPROVE
+	private void probeForSettings()
+	{
+		userConfig = new Settings();
+		userConfig.adoptVals();
+	}
+
 	private void restoreEnteredDesires()
 	{
 		enteredInformation = new Desires();
+		enteredInformation.restorePersisted();
+		enteredInformation.receiveSettings( userConfig );
 	}
 
 	private void dynamicPrepOf( CalendarByMonth calControl )
 	{
-		calControl.receiveModel( enteredInformation );
-		// calControl.setInitialDayLabels();
+		calControl.receiveModel( enteredInformation,
+				userConfig );
 	}
 
 }
