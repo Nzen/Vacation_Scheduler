@@ -103,7 +103,7 @@ public class Desires
 		return label;
 	}
 
-	private boolean personPresent( String who )
+	public boolean personPresent( String who )
 	{
 		boolean alreadySeen = true;
 		for ( Requestant currPerson : people )
@@ -116,7 +116,7 @@ public class Desires
 		return ! alreadySeen;
 	}
 
-	private int personSeniority( String who )
+	public int personSeniority( String who )
 	{
 		int ind = 0;
 		for ( Requestant currPerson : people )
@@ -132,6 +132,23 @@ public class Desires
 			}
 		}
 		return -1;
+	}
+
+	public String personOfSeniority( int seniority )
+	{
+		if ( seniority >= people.size() )
+		{
+			return "";
+		}
+		Requestant currPerson = people.get( seniority );
+		if ( currPerson == null )
+		{
+			return "";
+		}
+		else
+		{
+			return currPerson.getName();
+		}
 	}
 
 	public RequestViability requestChangesSeniority( String who, int seniority )

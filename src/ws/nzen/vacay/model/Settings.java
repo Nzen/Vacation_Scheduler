@@ -92,12 +92,13 @@ public class Settings
 	private void applyLineOfConfigFile( String line, int lineNum )
 	{
 		final String here = getClass().getName() +".alocf ";
-		if ( line.isEmpty() || line.startsWith( "#" ) )
+		if ( line.isEmpty() || line.startsWith( " #" ) )
 			return; // NOTE ignore
 		int indOfEqualSign = line.indexOf( '=' );
 		if ( indOfEqualSign <= 0 || indOfEqualSign == line.length() -1 )
 		{
-			System.out.println( here + lineNum +" is an invalid config" );
+			System.out.println( here + lineNum+" |"+ line
+					+"| is an invalid config" );
 			return;
 		}
 		String key = line.substring( 0, indOfEqualSign ).trim();

@@ -210,6 +210,7 @@ public class CalendarByMonth
 		if ( ! presentTimeNotSelected( selection, true ) ) // IMPROVE define ptnsYear once
 		{
 			year = Integer.parseInt( selection );
+			cbNavMonth.setValue( "Month" );
 		}
 		clearTheVisibleCalendar();
 	}
@@ -350,7 +351,7 @@ public class CalendarByMonth
 		}
 		else
 		{
-			// remove()
+			removeRequest( dateOfComponent, maybeName, seniority, desirability );
 			return;
 		}
 		refreshMainCalendar();
@@ -423,8 +424,8 @@ public class CalendarByMonth
 			if ( addability == RequestViability.displacesAnother )
 			{
 				boolean overwrite = true;
-				whatToAsk = "Another person exists at "+ (seniority +1)
-						+"\nOverwrite or Swap?";
+				whatToAsk = "Another person exists at "
+						+ adjustedSeniority( seniority ) +"\nOverwrite or Swap?";
 				Alert dialogRequest = new Alert(
 						Alert.AlertType.CONFIRMATION,
 						whatToAsk,
@@ -432,27 +433,27 @@ public class CalendarByMonth
 						new ButtonType( "Swap",
 								ButtonData.NEXT_FORWARD ),
 						ButtonType.CANCEL );
-				dialogRequest.showAndWait()
-					.ifPresent( 
-						response -> {
-							if ( response == ButtonType.APPLY )
-							{
-								vacationPreferences.addRequest(
-										name, seniority, desirability, when,
-										overwrite );
-							}
-							else if ( response == ButtonType.CANCEL )
-							{
-								return;
-							}
-							else // it's swap
-							{
-								vacationPreferences.addRequest(
-										name, seniority, desirability, when,
-										! overwrite );
-							}
+				dialogRequest.showAndWait().ifPresent( 
+					response ->
+					{
+						if ( response == ButtonType.APPLY )
+						{
+							vacationPreferences.addRequest(
+									name, seniority, desirability, when,
+									overwrite );
 						}
-					);
+						else if ( response == ButtonType.CANCEL )
+						{
+							return;
+						}
+						else // it's swap
+						{
+							vacationPreferences.addRequest(
+									name, seniority, desirability, when,
+									! overwrite );
+						}
+					}
+				);
 			}
 			else
 			{
@@ -461,24 +462,99 @@ public class CalendarByMonth
 				Alert dialogRequest = new Alert(
 						AlertType.CONFIRMATION, whatToAsk,
 						ButtonType.YES, ButtonType.NO );
-				dialogRequest.showAndWait()
-					.ifPresent( 
-						response -> {
-							if ( response == ButtonType.YES )
-							{
-								vacationPreferences.addRequest(
-										name, seniority, desirability, when );
-							}
-							else
-							{
-								return;
-							}
+				dialogRequest.showAndWait().ifPresent(
+					response ->
+					{
+						if ( response == ButtonType.YES )
+						{
+							vacationPreferences.addRequest(
+									name, seniority, desirability, when );
 						}
-					);
+						else
+						{
+							return;
+						}
+					}
+				);
 			}
-			
 		}
-		
+	}
+
+	private void removeRequest( LocalDate when, String name,
+			int seniority, int desire )
+	{
+		if ( 1==1 )
+		return;
+		RequestViability removability = vacationPreferences
+				.requestChangesSeniority( name, seniority );
+		if ( removability == RequestViability.inoffensive )
+		{
+			vacationPreferences.removeRequest( name, seniority, desire, when );
+			return;
+		}
+		String whatToAsk = "";
+		if ( removability == RequestViability.displacesAnother )
+		{
+			boolean overwrite = true;
+			String personAt = vacationPreferences.personOfSeniority( seniority );
+				whatToAsk = personAt +" exists at "+ adjustedSeniority( seniority )
+						+"\nDelete "+ name +"'s request anyway ?";
+				Alert dialogRequest = new Alert(
+						Alert.AlertType.CONFIRMATION,
+						whatToAsk,
+						ButtonType.APPLY,
+						new ButtonType( "Cut "+ personAt,
+								ButtonData.NEXT_FORWARD ),
+						ButtonType.CANCEL );
+				dialogRequest.showAndWait().ifPresent( 
+					response ->
+					{
+						if ( response == ButtonType.APPLY )
+						{
+							int realSeniority = vacationPreferences
+									.personSeniority( name );
+							vacationPreferences.removeRequest(
+									name, realSeniority, desire, when );
+						}
+						else if ( response == ButtonType.CANCEL )
+						{
+							return;
+						}
+						else // it's swap
+						{
+							vacationPreferences.removeRequest(
+									personAt, seniority, desire, when );
+						}
+					}
+				);
+		}
+		else
+		{
+			// must be Rv.movesPerson
+			whatToAsk = "Move "+ name +" to new seniority ?";
+			Alert dialogRequest = new Alert(
+					AlertType.CONFIRMATION, whatToAsk,
+					ButtonType.YES, ButtonType.NO );
+			dialogRequest.showAndWait().ifPresent(
+				response ->
+				{
+					if ( response == ButtonType.YES )
+					{
+						vacationPreferences.removeRequest(
+								name, seniority, desire, when );
+					}
+					else
+					{
+						return;
+					}
+				}
+			);
+		}
+	}
+
+	private int adjustedSeniority( int rawSeniority )
+	{
+		return rawSeniority +1;
 	}
 
 	/**  */
