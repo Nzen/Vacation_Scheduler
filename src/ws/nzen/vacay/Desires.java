@@ -108,7 +108,11 @@ public class Desires
 		boolean alreadySeen = true;
 		for ( Requestant currPerson : people )
 		{
-			if ( currPerson.getName().equals( who ) )
+			if ( currPerson == null )
+			{
+				continue;
+			}
+			else if ( currPerson.getName().equals( who ) )
 			{
 				return alreadySeen;
 			}
@@ -269,7 +273,18 @@ public class Desires
 	public void removeRequest( String who, int seniority,
 			int desirability, LocalDate when )
 	{
-		System.err.println( cl +"rr not implemented yet" );
+		if ( ! personPresent( who ) )
+		{
+			return;
+		}
+		Requestant person = people.get( seniority );
+		person.removeDay( desirability, when );
+		if ( ! person.hasAnyDays() )
+		{
+			people.remove( person );
+		}
+		List<Requestant> currPeopleOnDay = dayToPeople.get( when );
+		currPeopleOnDay.remove( person );
 	}
 
 	public void persist()

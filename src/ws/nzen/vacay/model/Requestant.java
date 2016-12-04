@@ -94,6 +94,19 @@ public class Requestant implements Serializable
 		return requestedDays.size();
 	}
 
+	public boolean hasAnyDays()
+	{
+		final boolean hasAtLeastOne = true;
+		for ( HashSet<LocalDate> requests : requestedDays )
+		{
+			if ( requests.size() > 0 )
+			{
+				return hasAtLeastOne;
+			}
+		}
+		return ! hasAtLeastOne;
+	}
+
 	public String getName()
 	{
 		return name;

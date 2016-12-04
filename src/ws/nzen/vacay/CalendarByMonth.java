@@ -352,7 +352,6 @@ public class CalendarByMonth
 		else
 		{
 			removeRequest( dateOfComponent, maybeName, seniority, desirability );
-			return;
 		}
 		refreshMainCalendar();
 	}
@@ -483,8 +482,6 @@ public class CalendarByMonth
 	private void removeRequest( LocalDate when, String name,
 			int seniority, int desire )
 	{
-		if ( 1==1 )
-		return;
 		RequestViability removability = vacationPreferences
 				.requestChangesSeniority( name, seniority );
 		if ( removability == RequestViability.inoffensive )

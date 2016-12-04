@@ -13,6 +13,7 @@ public class Constrainer
 	/*
 	add desire to calendar
 	remove desire from calendar
+		state machine ?
 	*/
 
 	/*
