@@ -169,7 +169,7 @@
                   <Label fx:id="lSaysClick" text="Click does :" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="btSave" mnemonicParsing="false" onAction="#pressedSave" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Button fx:id="btRestore" mnemonicParsing="false" onAction="#pressedRestore" text="Restore" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                  <Button fx:id="btExport" disable="true" mnemonicParsing="false" text="Export" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                  <Button fx:id="btExport" mnemonicParsing="false" onAction="#pressedExport" text="Export" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>

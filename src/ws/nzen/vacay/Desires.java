@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoField;
@@ -370,6 +371,44 @@ public class Desires
 					+ "\n fail because "+ cce );
 		}
 		return ! worked;
+	}
+
+	public boolean exportYear( int year )
+	{
+		Exporter toExcel = new Exporter();
+		for ( LocalDate day : dayToPeople.keySet() )
+		{
+			List<Requestant> ofThatDay = dayToPeople.get( day );
+			String cvsLabel = "";
+			int lim = Math.min( ofThatDay.size(),
+					userConfig.getPeopleOnSameDay() -1 );
+			for ( int ind = 0; ind < lim; ind++ )
+			{
+				cvsLabel += ofThatDay.get( ind ).getName() +" ";
+			}
+			toExcel.setDay( day, cvsLabel );
+		}
+		return toExcel.asExcelCvs();
+	}
+
+	// IMPROVE move to testing
+	public void testExport( int year )
+	{
+		Exporter toExcel = new Exporter();
+		for ( int ind = 1; ind < 366; ind++ )
+		{
+			try
+			{
+				LocalDate when = LocalDate.ofYearDay( year, ind );
+				toExcel.setDay( when, when.toString() );
+			}
+			catch ( DateTimeException dte )
+			{
+				String here = cl +"te ";
+				System.out.println( here + ind +" bad date ; okay during testing" );
+			}
+		}
+		toExcel.asExcelCvs();
 	}
 
 	public void receiveSettings( Settings settingsGathered )

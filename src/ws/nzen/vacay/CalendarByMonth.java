@@ -135,14 +135,8 @@ public class CalendarByMonth
 	private Button btbtSave = new Button();
 	@FXML
 	private Button btRestore = new Button();
-/*
-	@FXML
-	private Button btSave = new Button();
-	@FXML
-	private Button btRestore = new Button();
 	@FXML
 	private Button btExport = new Button();
-*/
 	private List<Labeled> controlsThatShowDay;
 	private YearMonth currMonth;
 	private int year = 2016;
@@ -655,6 +649,16 @@ public class CalendarByMonth
 		cbNavYear.setValue( Integer.toString( year ) );
 		cbNavMonth.setValue( Month.of( currMonth.getMonthValue() )
 				.getDisplayName( TextStyle.FULL, Locale.getDefault() ) );
+	}
+
+	/**  */
+	public void pressedExport( ActionEvent whatHappened )
+	{
+		/*
+		IMPROVE ask what type and where ; show a different thing instead ? 
+		*/
+		// vacationPreferences.testExport( year );
+		vacationPreferences.exportYear( year );
 	}
 
 	/**  */
