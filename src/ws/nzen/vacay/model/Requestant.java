@@ -19,11 +19,14 @@ public class Requestant implements Serializable
 
 	private static final long serialVersionUID = 1L;
 	private String name;
+	private int seniority = -1;
 	private ArrayList< HashSet<LocalDate> > requestedDays;
+	private int activeLevel = -1;
 
-	public Requestant( String appelation )
+	public Requestant( String appelation, int personLevel )
 	{
 		name = appelation;
+		seniority = personLevel;
 		requestedDays = new ArrayList< HashSet<LocalDate> >();
 	}
 
@@ -115,6 +118,26 @@ public class Requestant implements Serializable
 	public void setName( String name )
 	{
 		this.name = name;
+	}
+
+	public int getSeniority()
+	{
+		return seniority;
+	}
+
+	public void setSeniority( int seniority )
+	{
+		this.seniority = seniority;
+	}
+
+	public int getActiveLevel()
+	{
+		return activeLevel;
+	}
+
+	public void setActiveLevel( int activeLevel )
+	{
+		this.activeLevel = activeLevel;
 	}
 
 }

@@ -32,14 +32,13 @@ public class Desires
 	private int labelsShown = 37;
 	private String persistedFilename = "people.ser";
 	private Settings userConfig = new Settings();
+	private Map<LocalDate, List< Requestant >> dayToPeople = new HashMap<>();
+	private List<Requestant> people = new ArrayList<>();
 
 	enum RequestViability
 	{
 		inoffensive, movesPerson, displacesAnother;
 	}
-
-	private Map<LocalDate, List< Requestant >> dayToPeople = new HashMap<>();
-	private List<Requestant> people = new ArrayList<>();
 
 	public List<String> getLabelsFor( YearMonth aMonth )
 	{
@@ -202,7 +201,7 @@ public class Desires
 		if ( seniorness < 0 )
 		{
 			// new person
-			charge = new Requestant( who );
+			charge = new Requestant( who, seniorness );
 			people.set( seniority, charge );
 		}
 		else if ( seniority != seniorness )
@@ -246,24 +245,26 @@ public class Desires
 	}
 
 	/** resolve request for who with different than previous seniority */
-	private Requestant move( String who, int seniority,
-			int seniorness, boolean overWritePerson )
+	private Requestant move( String who, int seniorityPerUser,
+			int seniorityPerSystem, boolean overWritePerson )
 	{
-		Requestant charge = people.get( seniorness );
-		if ( people.get( seniority ) == null )
+		Requestant charge = people.get( seniorityPerSystem );
+		charge.setSeniority( seniorityPerUser );
+		if ( people.get( seniorityPerUser ) == null )
 		{
-			people.set( seniority, charge );
-			people.set( seniorness, null );
+			people.set( seniorityPerUser, charge );
+			people.set( seniorityPerSystem, null );
 		}
 		else if ( overWritePerson )
 		{
-			people.set( seniority, charge );
+			people.set( seniorityPerUser, charge );
 		}
 		else
 		{
-			Requestant displacee = people.get( seniority );
-			people.set( seniority, charge );
-			people.set( seniorness, displacee );
+			Requestant displacee = people.get( seniorityPerUser );
+			people.set( seniorityPerUser, charge );
+			charge.setSeniority( seniorityPerSystem );
+			people.set( seniorityPerSystem, displacee );
 			// ASK set to the back instead ?
 		}
 		// re-constrain affected choices
