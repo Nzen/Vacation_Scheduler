@@ -1,15 +1,16 @@
 /**
  * 
  */
-package java.main.ws.nzen.vacay;
+package main.java.ws.nzen.vacay;
 
-import java.main.ws.nzen.vacay.model.Requestant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+
+import main.java.ws.nzen.vacay.model.Requestant;
 
 /**
  * @author nzen

@@ -1,5 +1,5 @@
 
-package java.main.ws.nzen.vacay.model;
+package main.java.ws.nzen.vacay.model;
 
 import java.io.Serializable;
 import java.time.YearMonth;

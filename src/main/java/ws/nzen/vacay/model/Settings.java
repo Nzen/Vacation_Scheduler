@@ -1,7 +1,7 @@
 /**
  * 
  */
-package java.main.ws.nzen.vacay.model;
+package main.java.ws.nzen.vacay.model;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

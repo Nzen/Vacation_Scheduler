@@ -1,12 +1,13 @@
-package java.tests.ws.nzen.vacay;
+package tests.java.ws.nzen.vacay;
 
-import java.main.ws.nzen.vacay.Constrainer;
-import java.main.ws.nzen.vacay.model.Requestant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import main.java.ws.nzen.vacay.Constrainer;
+import main.java.ws.nzen.vacay.model.Requestant;
 
 public class TestsConstrainer
 {
@@ -40,7 +41,7 @@ public class TestsConstrainer
 		{
 			System.out.println( "first insert with no conflict must activate person" );
 		}
-		System.out.println( "sr\t"+ scheduledRequests );
+		System.out.println( "sr\t"+ scheduledRequests ); // ASK is this just going to show the date and the List-ObjId?
 		LocalDate jan2 = LocalDate.of( year, 1, 2 );
 		Requestant beta = new Requestant( "2", 0 );
 		int levelTwo = 1;

@@ -1,19 +1,27 @@
-package java.main.ws.nzen.vacay;
+package main.java.ws.nzen.vacay;
 
 import java.io.IOException;
-import java.main.ws.nzen.vacay.model.Settings;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.java.ws.nzen.vacay.model.Settings;
+import tests.java.ws.nzen.vacay.TestsConstrainer;
 
 public class VacaySchedRoot extends Application
 {
 
 	public static void main( String[] args )
 	{
-		launch( args );
+		if ( args.length > 0 )
+		{
+			testWithoutUnit();
+		}
+		else
+		{
+			launch( args );
+		}
 	}
 
 	private Desires enteredInformation;
@@ -51,6 +59,13 @@ public class VacaySchedRoot extends Application
 	{
 		calControl.receiveModel( enteredInformation,
 				userConfig );
+	}
+
+	/** interrim so I don't need to  */
+	private static void testWithoutUnit()
+	{
+		TestsConstrainer proctor = new TestsConstrainer();
+		proctor.addSimple();
 	}
 
 }
