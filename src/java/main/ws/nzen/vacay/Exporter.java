@@ -1,4 +1,4 @@
-package ws.nzen.vacay;
+package java.main.ws.nzen.vacay;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

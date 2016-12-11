@@ -1,13 +1,12 @@
-package ws.nzen.test.vacay;
+package java.tests.ws.nzen.vacay;
 
+import java.main.ws.nzen.vacay.Constrainer;
+import java.main.ws.nzen.vacay.model.Requestant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import ws.nzen.vacay.Constrainer;
-import ws.nzen.vacay.model.Requestant;
 
 public class TestsConstrainer
 {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ws.nzen.vacay;
+package java.main.ws.nzen.vacay;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.main.ws.nzen.vacay.model.Requestant;
+import java.main.ws.nzen.vacay.model.Settings;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -20,9 +22,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import ws.nzen.vacay.model.Requestant;
-import ws.nzen.vacay.model.Settings;
 
 /** @author nzen */
 public class Desires

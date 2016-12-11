@@ -1,12 +1,12 @@
-package ws.nzen.vacay;
+package java.main.ws.nzen.vacay;
 
 import java.io.IOException;
+import java.main.ws.nzen.vacay.model.Settings;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ws.nzen.vacay.model.Settings;
 
 public class VacaySchedRoot extends Application
 {
