@@ -37,47 +37,57 @@ public class Constrainer
 	public List<Requestant> addRequest( LocalDate when, Requestant who, int desire,
 			Map<LocalDate, List< Requestant >> scheduledRequests )
 	{
-		List< Requestant > peopleOnDay = scheduledRequests.get( when );
-		if ( peopleOnDay == null )
+		List< Requestant > peopleOfDay = scheduledRequests.get( when );
+		peopleOfDay = ensureListForDayIsReady( when, peopleOfDay, scheduledRequests );
+		if ( who.hasActiveDesire() )
 		{
-			peopleOnDay = new ArrayList<>();
-			for ( int ind = 0; ind < activeArea; ind++ )
+			if ( activeSpotOpen( peopleOfDay ) )
 			{
-				peopleOnDay.add( null );
+				peopleOfDay.set( indexOfOpenActiveSpot( peopleOfDay ), who );
+				return null;
 			}
-			scheduledRequests.put( when, peopleOnDay );
-		}
-		if ( who.getActiveLevel() != desire )
-		{
-			peopleOnDay.add( who );
-			return null;
-		}
-		else if ( activeSpotOpen( peopleOnDay ) )
-		{
-			ListIterator<Requestant> forLoop = peopleOnDay.listIterator();
-			Requestant currPerson;
-			int ind = 0;
-			while ( ind < activeArea && forLoop.hasNext() )
+			else
 			{
-				currPerson = forLoop.next();
-				if ( currPerson == null )
-				{
-					forLoop.set( who );
-					break;
-				}
-				ind++;
+				peopleOfDay.add( who );
+				return constrainFromScratch( scheduledRequests );
 			}
-			currPerson = peopleOnDay.get( ind );
-			if ( currPerson != who )
-			{
-				peopleOnDay.set( ind, who ); // ASK check if this adds it twice
-			}
-			return null;
 		}
 		else
 		{
-			return constrainFromScratch( scheduledRequests );
+			if ( activeSpotOpen( peopleOfDay ) )
+			{
+				who.setActiveLevel( desire );
+				peopleOfDay.set( indexOfOpenActiveSpot( peopleOfDay ), who );
+				return null;
+			}
+			else
+			{
+				peopleOfDay.add( who );
+				return null;
+			}
 		}
+	}
+
+	private List<Requestant> ensureListForDayIsReady( LocalDate when, List< Requestant > peopleOfDay,
+			Map<LocalDate, List< Requestant >> scheduledRequests )
+	{
+		if ( peopleOfDay == null )
+		{
+			peopleOfDay = new ArrayList<>();
+			for ( int ind = 0; ind < activeArea; ind++ )
+			{
+				peopleOfDay.add( null );
+			}
+			scheduledRequests.put( when, peopleOfDay );
+		}
+		else if ( peopleOfDay.size() < activeArea )
+		{
+			for ( int ind = 0; ind < activeArea; ind++ )
+			{
+				peopleOfDay.add( null );
+			}
+		}
+		return peopleOfDay;
 	}
 
 	private boolean activeSpotOpen( List< Requestant > peopleOnDay )
@@ -203,6 +213,7 @@ public class Constrainer
 				}
 			}
 		}
+		// IMPROVE defragment null spots after activeArea
 		List<Requestant> problems = new ArrayList<>();
 		// check for inactive people
 		for ( Requestant currPerson : people )
@@ -296,7 +307,7 @@ public class Constrainer
 		);*/
 		for ( Requestant currPerson : people )
 		{
-			if ( maxdesire > currPerson.getLevelsOfDesire() )
+			if ( maxdesire < currPerson.getLevelsOfDesire() )
 			{
 				maxdesire = currPerson.getLevelsOfDesire();
 			}
@@ -327,7 +338,7 @@ public class Constrainer
 			int currSeniority, List<Requestant> peopleOfDay )
 	{
 		return indexDesireEqualButLessSenior( currentDesire,
-				currSeniority, peopleOfDay ) > activeArea;
+				currSeniority, peopleOfDay ) < activeArea;
 	}
 
 	private int indexDesireEqualButLessSenior( int otherDesire,
@@ -337,8 +348,12 @@ public class Constrainer
 		for ( int ind = 0; ind < activeArea; ind++ )
 		{
 			Requestant currPerson = peopleOfDay.get( ind );
-			if ( currPerson.getActiveLevel() == otherDesire
-				&& currPerson.getSeniority() < otherSeniority )
+			if ( currPerson == null )
+			{
+				continue;
+			}
+			else if ( currPerson.getActiveLevel() == otherDesire
+				&& currPerson.getSeniority() > otherSeniority )
 			{
 				index = ind;
 				break;

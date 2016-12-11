@@ -85,7 +85,7 @@ public class Requestant implements Serializable
 	/** set of days of that level or null */
 	public Set<LocalDate> getDaysOfLevel( int desirability )
 	{
-		desirability -= 1; // for zero index
+		// desirability -= 1; // for zero index -- this is a bad idea if I don't transform human to machine
 		if ( desirability > requestedDays.size() )
 			return null;
 		else
@@ -108,6 +108,11 @@ public class Requestant implements Serializable
 			}
 		}
 		return ! hasAtLeastOne;
+	}
+
+	public boolean hasActiveDesire()
+	{
+		return activeLevel >= 0;
 	}
 
 	public String getName()
