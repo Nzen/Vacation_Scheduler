@@ -7,21 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.java.ws.nzen.vacay.model.Settings;
-import tests.java.ws.nzen.vacay.TestsConstrainer;
 
 public class VacaySchedRoot extends Application
 {
 
 	public static void main( String[] args )
 	{
-		if ( args.length > 0 )
-		{
-			testWithoutUnit();
-		}
-		else
-		{
-			launch( args );
-		}
+		launch( args );
 	}
 
 	private Desires enteredInformation;
@@ -59,13 +51,6 @@ public class VacaySchedRoot extends Application
 	{
 		calControl.receiveModel( enteredInformation,
 				userConfig );
-	}
-
-	/** interrim so I don't need to  */
-	private static void testWithoutUnit()
-	{
-		TestsConstrainer proctor = new TestsConstrainer();
-		proctor.addSimple();
 	}
 
 }
