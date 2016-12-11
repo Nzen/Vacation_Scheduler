@@ -7,7 +7,7 @@ Enables adding heirarchically ranked people with heirarchically declared prefere
 ![linux screenshot](https://farm6.staticflickr.com/5619/31419172675_7461712305_z_d.jpg)  
 Pic hosted by [flickr](https://www.flickr.com/photos/18099895@N06/31419172675)
 
-&copy; Nicholas Prado, released under [Fair License](fairlicense.org) terms.
+&copy; Nicholas Prado, released under [Fair License](http://fairlicense.org) terms.
 
 #### Dev journal ####
 
