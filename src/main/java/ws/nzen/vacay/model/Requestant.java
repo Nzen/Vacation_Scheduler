@@ -61,10 +61,6 @@ public class Requestant implements Serializable
 
 	public void removeDay( int care, LocalDate when )
 	{
-		if ( care > requestedDays.size() )
-		{
-			return;
-		}
 		HashSet<LocalDate> previousRequests = requestedDays.get( care );
 		if ( previousRequests == null )
 		{

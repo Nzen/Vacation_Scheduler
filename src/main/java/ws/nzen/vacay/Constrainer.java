@@ -41,13 +41,32 @@ public class Constrainer
 		peopleOfDay = ensureListForDayIsReady( when, peopleOfDay, scheduledRequests );
 		if ( who.hasActiveDesire() )
 		{
-			if ( activeSpotOpen( peopleOfDay ) )
+			if ( desire == who.getActiveLevel() )
 			{
-				peopleOfDay.set( indexOfOpenActiveSpot( peopleOfDay ), who );
+				if ( activeSpotOpen( peopleOfDay ) )
+				{
+					peopleOfDay.set( indexOfOpenActiveSpot( peopleOfDay ), who );
+					return null;
+				}
+				else
+				{
+					peopleOfDay.add( who );
+					return constrainFromScratch( scheduledRequests );
+				}
+			}
+			else if ( desire > who.getActiveLevel() )
+			{
+				// other is already active, just mark it
+				peopleOfDay.add( who );
 				return null;
 			}
 			else
 			{
+				/*
+				check whether this activates the previous level,
+				ex, a puts desire 2 then desire 1 ; 2 was active, does 1 work ?
+				is it cheaper to test more ?
+				*/
 				peopleOfDay.add( who );
 				return constrainFromScratch( scheduledRequests );
 			}
@@ -106,16 +125,12 @@ public class Constrainer
 			Map<LocalDate, List< Requestant >> scheduledRequests )
 	{
 		List< Requestant > peopleOnDay = scheduledRequests.get( when );
-		// if ( peopleOnDay == null ) return null;
-		if ( activeSpotOpen( peopleOnDay ) )
+		if ( peopleOnDay == null )
 		{
-			peopleOnDay.remove( who );
 			return null;
 		}
-		else
-		{
-			return constrainFromScratch( scheduledRequests );
-		}
+		peopleOnDay.remove( who );
+		return constrainFromScratch( scheduledRequests );
 	}
 
 	private List<Requestant> constrainFromScratch(
@@ -237,7 +252,9 @@ public class Constrainer
 		{
 			if ( currDay.getYear() == year )
 			{
-				emptyActiveSpots( scheduledRequests.get( currDay ) );
+				List<Requestant> peopleOfDay = ensureListForDayIsReady( 
+						currDay, scheduledRequests.get( currDay ), scheduledRequests );
+				emptyActiveSpots( peopleOfDay );
 			}
 		}
 	}
@@ -264,16 +281,20 @@ public class Constrainer
 
 	private void emptyActiveSpots( List<Requestant> peopleOnDay )
 	{
-		for ( int ind = 0; ind < peopleOnDay.size(); ind++ )
+		if ( peopleOnDay.size() < activeArea )
 		{
-			if ( ind >= activeArea ) // ASK check off by 1 error
+			for ( int ind = peopleOnDay.size(); ind < activeArea; ind++ )
 			{
-				break;
+				peopleOnDay.add( null );
 			}
-			else
+		}
+		for ( int ind = 0; ind < activeArea; ind++ )
+		{
+			Requestant currPerson = peopleOnDay.get( ind );
+			if ( currPerson != null )
 			{
-				peopleOnDay.add( peopleOnDay.get( ind ) );
-				peopleOnDay.set( ind, null ); // nn! check if null is what I set there
+				peopleOnDay.add( currPerson );
+				peopleOnDay.set( ind, null );
 			}
 		}
 	}
@@ -386,6 +407,16 @@ public class Constrainer
 	public void setPeople( List<Requestant> people )
 	{
 		this.people = people;
+	}
+
+	public int getYear()
+	{
+		return year;
+	}
+
+	public void setYear( int year )
+	{
+		this.year = year;
 	}
 
 }

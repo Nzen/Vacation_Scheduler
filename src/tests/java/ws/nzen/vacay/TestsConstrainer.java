@@ -59,7 +59,7 @@ public class TestsConstrainer
 	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#addRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
 	 */
 	@Test
-	public void testFirstAddRequest()
+	public void testAddRequest_First()
 	{
 		Requestant alpha = new Requestant( "alpha", levelOne );
 		alpha.addDay( levelOne, jan1 );
@@ -79,9 +79,9 @@ public class TestsConstrainer
 	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#addRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
 	 */
 	@Test
-	public void testOpenSpotAddRequest()
+	public void testAddRequest_OpenSpot()
 	{
-		testFirstAddRequest();
+		testAddRequest_First();
 		Requestant alpha = everyone.get( levelOne );
 		int alphaDesireLevel = alpha.getActiveLevel();
 		Requestant beta = new Requestant( "beta", levelTwo );
@@ -103,9 +103,9 @@ public class TestsConstrainer
 	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#addRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
 	 */
 	@Test
-	public void testInactiveStaysInactiveAddRequest()
+	public void testAddRequest_InactiveStaysInactive()
 	{
-		testFirstAddRequest();
+		testAddRequest_First();
 		Requestant beta = new Requestant( "beta", 0 );
 		beta.addDay( levelOne, jan1 );
 		List<Requestant> prob = fixesCalendar
@@ -117,9 +117,9 @@ public class TestsConstrainer
 	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#addRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
 	 */
 	@Test
-	public void testActivePushedDownAddRequest()
+	public void testAddRequest_ActivePersonPushedDown()
 	{
-		testOpenSpotAddRequest();
+		testAddRequest_OpenSpot();
 		Requestant alpha = everyone.get( levelOne );
 		Requestant beta = everyone.get( levelTwo );
 		alpha.addDay( levelOne, jan2 );
@@ -136,6 +136,18 @@ public class TestsConstrainer
 				.get( levelTwo ).getName(),
 				beta.getName() );
 		// NOTE alpha vacated spot 1. I may want to 'delete' the vacated spot rather than end with a sparse list
+	}
+
+	/**
+	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#addRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
+	 */
+	@Test
+	public void testAddRequest_PushDownLesserActiveLevel()
+	{
+		/*
+		add level 2, then level 1, expect active level to go down and other day to move down
+		*/
+		fail( "Not yet implemented" );
 	}
 
 	/*

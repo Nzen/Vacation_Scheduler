@@ -34,6 +34,8 @@ public class Desires
 	private Settings userConfig = new Settings();
 	private Map<LocalDate, List< Requestant >> dayToPeople = new HashMap<>();
 	private List<Requestant> people = new ArrayList<>();
+	private Constrainer fixer = new Constrainer( userConfig.getPeopleOnSameDay(),
+			people, 2015 );
 
 	enum RequestViability
 	{
@@ -90,16 +92,17 @@ public class Desires
 		List<Requestant> calledDibs = dayToPeople.get( when );
 		if ( ! (calledDibs == null || calledDibs.isEmpty()) )
 		{
-			for ( Requestant currPerson : calledDibs )
+			int lim = Math.min( calledDibs.size(),
+					userConfig.getPeopleOnSameDay() );
+			for ( int ind = 0; ind < lim; ind++ )
 			{
-				// IMPROVE handle first differently
-				label += ", "+ currPerson.getName();
+				Requestant currPerson = calledDibs.get( ind );
+				if ( currPerson != null )
+				{
+					label += ", "+ currPerson.getName();
+				}
 			}
 		}
-		/*else
-		{
-			System.out.println( "no one for "+ when );
-		}*/
 		return label;
 	}
 
@@ -215,21 +218,16 @@ public class Desires
 			charge = people.get( seniority );
 		} 
 		charge.addDay( desirability, when );
-		// IMPROVE if ! added() skip below
-		List<Requestant> currPeopleOnDay = dayToPeople.get( when );
-		if ( currPeopleOnDay == null )
+		if ( fixer.getYear() != when.getYear() )
 		{
-			currPeopleOnDay = new LinkedList<>();
-			currPeopleOnDay.add( charge );
-			dayToPeople.put( when, currPeopleOnDay );
+			fixer.setYear( when.getYear() );
 		}
-		else
+		List<Requestant> probFor = fixer.addRequest(
+				when, charge, desirability, dayToPeople );
+		if ( ! (probFor == null || probFor.isEmpty()) )
 		{
-			// FIX !! actually constrain instead
-			if ( ! currPeopleOnDay.contains( charge ) )
-			{
-				currPeopleOnDay.add( charge );
-			}
+			System.out.println( "couldn't help "+ who );
+			// IMPROVE push upward to ui for complaints
 		}
 	}
 
@@ -285,8 +283,16 @@ public class Desires
 		{
 			people.remove( person );
 		}
-		List<Requestant> currPeopleOnDay = dayToPeople.get( when );
-		currPeopleOnDay.remove( person );
+		if ( fixer.getYear() != when.getYear() )
+		{
+			fixer.setYear( when.getYear() );
+		}
+		List<Requestant> probFor = fixer.removeRequest(
+				when, person, desirability, dayToPeople );
+		if ( ! probFor.isEmpty() )
+		{
+			System.out.println( "couldn't help "+ who );
+		}
 	}
 
 	public void persist()
@@ -416,6 +422,7 @@ public class Desires
 	{
 		if ( settingsGathered != null )
 			userConfig = settingsGathered;
+		fixer.setActiveArea( settingsGathered.getPeopleOnSameDay() );
 	}
 
 }
