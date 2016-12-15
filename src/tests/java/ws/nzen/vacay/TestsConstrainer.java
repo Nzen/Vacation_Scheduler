@@ -133,9 +133,9 @@ public class TestsConstrainer
 				alpha.getName() );
 		assertEquals( "third on day should be beta",
 				requests.get( jan2 )
-				.get( levelTwo ).getName(),
+				.get( levelTwo +1 ).getName(),
 				beta.getName() );
-		// NOTE alpha vacated spot 1. I may want to 'delete' the vacated spot rather than end with a sparse list
+		// NOTE brittle: alpha vacated index 1. I may want to 'delete' the vacated spot rather than end with a sparse list
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class TestsConstrainer
 		prob = fixesCalendar.addRequest(
 				jan1, alpha, levelOne, requests );
 		assertTrue( "changing own active level"
-				" should not be a problem", prob.isEmpty() );
+				+" should not be a problem", prob.isEmpty() );
 		assertEquals( "active level should be one",
 				alpha.getActiveLevel(), levelOne  );
 	}
