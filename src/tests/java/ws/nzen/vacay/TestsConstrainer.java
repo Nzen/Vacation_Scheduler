@@ -147,7 +147,21 @@ public class TestsConstrainer
 		/*
 		add level 2, then level 1, expect active level to go down and other day to move down
 		*/
-		fail( "Not yet implemented" );
+		Requestant alpha = new Requestant( "alpha", levelOne );
+		alpha.addDay( levelTwo, jan2 );
+		everyone.add( alpha );
+		requests.put( jan2, new ArrayList<Requestant>() );
+		List<Requestant> prob = fixesCalendar.addRequest(
+				jan2, alpha, levelTwo, requests );
+		assertTrue( "first insert must return null", prob == null );
+		alpha.addDay( levelOne, jan1 );
+		requests.put( jan2, new ArrayList<Requestant>() );
+		prob = fixesCalendar.addRequest(
+				jan1, alpha, levelOne, requests );
+		assertTrue( "changing own active level"
+				" should not be a problem", prob.isEmpty() );
+		assertEquals( "active level should be one",
+				alpha.getActiveLevel(), levelOne  );
 	}
 
 	/*
