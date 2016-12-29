@@ -197,6 +197,10 @@ public class CalendarByMonth
 		{
 			year = Integer.parseInt( selection );
 			cbNavMonth.setValue( "Month" );
+			if ( vacationPreferences.someoneHasRequestFor( year ) )
+			{
+				vacationPreferences.prepNewYear( year );
+			}
 		}
 		clearTheVisibleCalendar();
 	}

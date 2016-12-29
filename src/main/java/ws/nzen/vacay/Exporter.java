@@ -63,11 +63,10 @@ public class Exporter
 		month of day wise
 		*/
 		StringBuilder yearAsBlock = new StringBuilder( 400 );
-		int yearLength = 336;
+		int yearLength = 366;
 		int monthOffset = 31;
-		int monthlength = 31;
-		int months = 11;
-		for ( int daysOfMonth = 0; daysOfMonth < monthlength; daysOfMonth++ )
+		int monthLength = 31;
+		for ( int daysOfMonth = 0; daysOfMonth < monthLength; daysOfMonth++ )
 		{
 			for ( int dayOfYear = 0; dayOfYear < yearLength;
 					dayOfYear += monthOffset )

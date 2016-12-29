@@ -133,6 +133,12 @@ public class Constrainer
 		return constrainFromScratch( scheduledRequests );
 	}
 
+	public List<Requestant> prepYearForDisplay(
+			Map<LocalDate, List< Requestant >> scheduledRequests )
+	{
+		return constrainFromScratch( scheduledRequests );
+	}
+
 	private List<Requestant> constrainFromScratch(
 			Map<LocalDate, List< Requestant >> scheduledRequests )
 	{
@@ -183,7 +189,8 @@ public class Constrainer
 					{
 						int inactiveInd = peopleOfDay.indexOf( currPerson );
 						int indOfSpotToFill = indexOfOpenActiveSpot( peopleOfDay );
-						// if ( indOfSpotToFill < 0 ) throw implementation exception, activeSpotOpen lied
+						if ( inactiveInd < 0 ) // um why you wrong? you no get added?
+							System.out.println("4TESTS");//throw implementation exception, activeSpotOpen lied
 						peopleOfDay.set( inactiveInd, null );
 						peopleOfDay.set( indOfSpotToFill, currPerson );
 					}

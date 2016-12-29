@@ -5,6 +5,7 @@ package main.java.ws.nzen.vacay.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,11 +24,11 @@ public class Requestant implements Serializable
 	private ArrayList< HashSet<LocalDate> > requestedDays;
 	private int activeLevel = -1;
 
-	public Requestant( String appelation, int personLevel )
+	public Requestant( String appellation, int personLevel )
 	{
-		name = appelation;
+		name = appellation;
 		seniority = personLevel;
-		requestedDays = new ArrayList< HashSet<LocalDate> >();
+		requestedDays = new ArrayList<>();
 	}
 
 	// IMPROVE return boolean : whether add did anything 
@@ -108,6 +109,32 @@ public class Requestant implements Serializable
 			}
 		}
 		return ! hasAtLeastOne;
+	}
+
+	public boolean hasSomeDayIn( int year )
+	{
+		final boolean hasAtLeastOne = true;
+		for ( HashSet<LocalDate> requests : requestedDays )
+		{
+			if ( requests != null )
+			{
+				for ( LocalDate currDay : requests )
+				{
+					if ( currDay.get( ChronoField.YEAR ) == year )
+					{
+						return hasAtLeastOne;
+					}
+				}
+			}
+		}
+		return ! hasAtLeastOne;
+	}
+
+	public boolean hasDaysOfLevel( int level )
+	{
+		return requestedDays.size() > level
+				&& requestedDays.get( level ) != null
+				&& requestedDays.get( level ).size() > 0;
 	}
 
 	public boolean hasActiveDesire()

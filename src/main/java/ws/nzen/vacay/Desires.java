@@ -42,6 +42,28 @@ public class Desires
 		inoffensive, movesPerson, displacesAnother;
 	}
 
+	/** some requestant has a day of this year.
+	 * Usually a signal to reconstrain on yearc hange */
+	public boolean someoneHasRequestFor( int year )
+	{
+		final boolean hasAtLeastOne = true;
+		for ( Requestant person : people )
+		{
+			if ( person.hasSomeDayIn( year ) )
+			{
+				return hasAtLeastOne;
+			}
+		}
+		return ! hasAtLeastOne;
+	}
+
+	public void prepNewYear( int year )
+	{
+		fixer = new Constrainer( userConfig.getPeopleOnSameDay(),
+				people, year );
+		fixer.prepYearForDisplay( dayToPeople );
+	}
+
 	public List<String> getLabelsFor( YearMonth aMonth )
 	{
 		List<String> theDisplayValsOfMonth = new ArrayList<>( labelsShown );
@@ -339,24 +361,36 @@ public class Desires
 				dayToPeople.clear();
 			else
 				dayToPeople = new HashMap<LocalDate, List<Requestant>>();
-			for ( Requestant aPersonDesires : flatPeople )
+			for ( Requestant currPerson : flatPeople )
 			{
-				people.add( (Requestant)aPersonDesires );
-				Iterator<HashSet<LocalDate>> when = aPersonDesires.getDaysOf(); // IMPROVE replace with .daysOfLevel()
-				while ( when.hasNext() )
+				if ( currPerson == null )
 				{
-					Iterator<LocalDate> whenOfLevel = when.next().iterator();
-					while ( whenOfLevel.hasNext() )
+					continue;
+				}
+				people.add( (Requestant)currPerson );
+				int levels = currPerson.getLevelsOfDesire();
+				for ( int ind = 0; ind < levels; ind++ )
+				{
+					if ( currPerson.hasDaysOfLevel( ind ) )
 					{
-						LocalDate exactlyWhen = whenOfLevel.next();
-						// FIX I'm going to have to do this again, for real, when I have a constrainer
-						List<Requestant> reservees = dayToPeople.get( whenOfLevel );
-						if ( reservees == null )
+						for ( LocalDate when : currPerson.getDaysOfLevel( ind ) )
 						{
-							reservees = new ArrayList<>();
+							List<Requestant> reservees = dayToPeople.get( when );
+							if ( reservees == null )
+							{
+								reservees = new ArrayList<>();
+								dayToPeople.put( when, reservees );
+							}
+							else if ( reservees.isEmpty() )
+							{
+								for ( int cursor = 0; cursor < userConfig.getPeopleOnSameDay(); cursor++ )
+								{
+									reservees.add( null );
+								}
+							}
+							reservees.add( currPerson );
+							dayToPeople.put( when, reservees );
 						}
-						reservees.add( aPersonDesires );
-						dayToPeople.put( exactlyWhen, reservees );
 					}
 				}
 			}
@@ -387,18 +421,34 @@ public class Desires
 
 	public boolean exportYear( int year )
 	{
+		if ( ! someoneHasRequestFor( year ) )
+		{
+			String here = cl + "ey ";
+			System.out.println( here +"No requests for year "+ year );
+			return false;
+		}
 		Exporter toExcel = new Exporter();
 		for ( LocalDate day : dayToPeople.keySet() )
 		{
+			if ( day.get( ChronoField.YEAR ) != year )
+			{
+				continue;
+			}
 			List<Requestant> ofThatDay = dayToPeople.get( day );
 			String cvsLabel = "";
 			int lim = Math.min( ofThatDay.size(),
 					userConfig.getPeopleOnSameDay() -1 );
 			for ( int ind = 0; ind < lim; ind++ )
 			{
-				cvsLabel += ofThatDay.get( ind ).getName() +" ";
+				Requestant currPerson = ofThatDay.get( ind );
+				if ( currPerson == null )
+					continue; // since we fill from the front
+				cvsLabel += currPerson.getName() +" ";
 			}
+			if ( ! cvsLabel.isEmpty() )
+				cvsLabel = cvsLabel.substring( 0, cvsLabel.length() -1 );
 			toExcel.setDay( day, cvsLabel );
+					// cut the trailing space
 		}
 		return toExcel.asExcelCvs();
 	}
