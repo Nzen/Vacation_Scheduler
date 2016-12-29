@@ -113,12 +113,12 @@ public class Constrainer
 	{
 		for ( int ind = 0; ind < activeArea; ind++ )
 		{
-			if ( peopleOnDay.get( ind ) != null )
+			if ( peopleOnDay.get( ind ) == null )
 			{
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public List<Requestant> removeRequest( LocalDate when, Requestant who, int desire,

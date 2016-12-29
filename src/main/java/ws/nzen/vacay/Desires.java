@@ -235,6 +235,7 @@ public class Desires
 		}
 	}
 
+	/** make sure ds is big enough that we don't get indexoverflow */
 	private void ensureSpaceFor( int seniority )
 	{
 		if ( people.size() <= seniority )
