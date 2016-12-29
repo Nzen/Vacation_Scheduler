@@ -1,0 +1,46 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '0.9'
+
+repositories
+{
+	flatDir
+	{
+		dirs 'lib'
+	}
+}
+
+jar
+{
+	manifest
+	{
+		attributes 'Main-Class': 'main.java.ws.nzen.vacay.VacaySchedRoot'
+	}
+}
+
+uploadArchives
+{
+	repositories
+	{
+		flatDir
+		{
+			dirs 'out'
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

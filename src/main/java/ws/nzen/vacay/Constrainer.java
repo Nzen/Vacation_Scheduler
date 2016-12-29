@@ -164,7 +164,8 @@ public class Constrainer
 					continue;
 				}
 				Set<LocalDate> daysOfLevel = currPerson.getDaysOfLevel( desire );
-				if ( daysOfLevel == null )
+				if ( daysOfLevel == null
+					|| daysOfLevel.size() < 1 )
 				{
 					// don't have any of this level
 					continue;

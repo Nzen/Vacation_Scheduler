@@ -61,6 +61,10 @@ public class Requestant implements Serializable
 
 	public void removeDay( int care, LocalDate when )
 	{
+		if ( care > requestedDays.size() )
+		{
+			return;
+		}
 		HashSet<LocalDate> previousRequests = requestedDays.get( care );
 		if ( previousRequests == null )
 		{
@@ -98,7 +102,7 @@ public class Requestant implements Serializable
 		final boolean hasAtLeastOne = true;
 		for ( HashSet<LocalDate> requests : requestedDays )
 		{
-			if ( requests.size() > 0 )
+			if ( requests != null && requests.size() > 0 )
 			{
 				return hasAtLeastOne;
 			}

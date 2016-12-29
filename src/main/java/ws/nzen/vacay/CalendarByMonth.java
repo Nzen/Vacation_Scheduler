@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.Tooltip;
 import main.java.ws.nzen.vacay.Desires.RequestViability;
 import main.java.ws.nzen.vacay.model.CalendarUi;
 import main.java.ws.nzen.vacay.model.Settings;
@@ -45,8 +45,6 @@ public class CalendarByMonth
 	private ComboBox<String> cbNavMonth = new ComboBox<>();
 	@FXML
 	private Button btNavEarlier = new Button();
-	@FXML
-	private Button btNavLater = new Button();
 	@FXML
 	private Button btDayM0 = new Button();
 	@FXML
@@ -131,12 +129,6 @@ public class CalendarByMonth
 	private RadioButton rbDoesAdd = new RadioButton();
 	@FXML
 	private RadioButton rbDoesDelete = new RadioButton();
-	@FXML
-	private Button btbtSave = new Button();
-	@FXML
-	private Button btRestore = new Button();
-	@FXML
-	private Button btExport = new Button();
 	private List<Labeled> controlsThatShowDay;
 	private YearMonth currMonth;
 	private int year = 2016;
@@ -239,6 +231,7 @@ public class CalendarByMonth
 		for ( String text : newLabels )
 		{
 			controlsThatShowDay.get( ind ).setText( text );
+			controlsThatShowDay.get( ind ).setTooltip( new Tooltip( "banana" ) );
 			ind++;
 		}
 	}
@@ -263,7 +256,6 @@ public class CalendarByMonth
 	private void pressedNavDirection( int magnitude, ActionEvent whatHappened )
 	{
 		String selected = cbNavMonth.getValue();
-		ObservableList<String> monthList = cbNavMonth.getItems();
 		if ( presentTimeNotSelected( selected, false ) )
 		{
 			// ASK nothing selected, I guess I could say earlier than this yearmonth
@@ -390,7 +382,7 @@ public class CalendarByMonth
 		String dayNumber;
 		if ( btnLabel.contains( " " ) )
 		{
-			int indOfNonNumber = btnLabel.indexOf( ' ' );
+			int indOfNonNumber = btnLabel.indexOf( ',' ); // NOTE currently ', ' for simplicity
 			dayNumber = btnLabel.substring( 0, indOfNonNumber );
 		}
 		else
@@ -659,6 +651,22 @@ public class CalendarByMonth
 		*/
 		// vacationPreferences.testExport( year );
 		vacationPreferences.exportYear( year );
+	}
+
+	@FXML
+	/** try to put the appropriate seniority in the next box */
+	public void typedName( ActionEvent whatHappened )
+	{
+		String nameInput = tfName.getText();
+		if ( nameInput.isEmpty() )
+		{
+			return;
+		}
+		int potentialSeniority = vacationPreferences.personSeniority( nameInput ) +1;
+		if ( potentialSeniority > 0 )
+		{
+			tfSeniority.setText( Integer.toString( potentialSeniority ) );
+		}
 	}
 
 	/**  */

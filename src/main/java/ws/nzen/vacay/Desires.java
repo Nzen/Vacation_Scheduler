@@ -47,8 +47,6 @@ public class Desires
 		List<String> theDisplayValsOfMonth = new ArrayList<>( labelsShown );
 		theDisplayValsOfMonth = applyTheDateLabels( theDisplayValsOfMonth,
 				aMonth );
-		/* get the day labels
-		 * paste in the people who won */
 		return theDisplayValsOfMonth;
 	}
 
@@ -78,12 +76,17 @@ public class Desires
 				String allocators = desireFor( currDay );
 
 				if ( ! allocators.isEmpty() )
-					labelText += " " + allocators;
+					labelText += allocators;
 				receivesDays.add( labelText );
 				dayToShow++;
 			}
 		}
 		return receivesDays;
+	}
+
+	public List<String> getTooltipsFor( YearMonth when )
+	{
+		return null ; // FIX do the same as above
 	}
 
 	private String desireFor( LocalDate when )
@@ -195,6 +198,7 @@ public class Desires
 				overwriteOriginalIfSeniorityConflicts );
 	}
 
+	/** removes day, potentially reorganizes active requests */
 	public void addRequest( String who, int seniority,
 			int desirability, LocalDate when, boolean overWritePerson )
 	{
@@ -269,7 +273,7 @@ public class Desires
 		return charge;
 	}
 
-	/**  */
+	/** removes day, potentially reorganizes active requests */
 	public void removeRequest( String who, int seniority,
 			int desirability, LocalDate when )
 	{
@@ -337,7 +341,7 @@ public class Desires
 			for ( Requestant aPersonDesires : flatPeople )
 			{
 				people.add( (Requestant)aPersonDesires );
-				Iterator<HashSet<LocalDate>> when = aPersonDesires.getDaysOf();
+				Iterator<HashSet<LocalDate>> when = aPersonDesires.getDaysOf(); // IMPROVE replace with .daysOfLevel()
 				while ( when.hasNext() )
 				{
 					Iterator<LocalDate> whenOfLevel = when.next().iterator();

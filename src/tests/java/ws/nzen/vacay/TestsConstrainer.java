@@ -155,7 +155,7 @@ public class TestsConstrainer
 				jan2, alpha, levelTwo, requests );
 		assertTrue( "first insert must return null", prob == null );
 		alpha.addDay( levelOne, jan1 );
-		requests.put( jan2, new ArrayList<Requestant>() );
+		requests.put( jan1, new ArrayList<Requestant>() );
 		prob = fixesCalendar.addRequest(
 				jan1, alpha, levelOne, requests );
 		assertTrue( "changing own active level"
@@ -172,6 +172,30 @@ public class TestsConstrainer
 	{
 		fail( "Not yet implemented" );
 	}*/
+
+	/*
+	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#removeRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
+	 */
+	@Test
+	public void testRemoveRequest_ReactivateLowerDesire()
+	{
+		// setup adds a low and high request for same person
+		Requestant alpha = new Requestant( "alpha", levelOne );
+		alpha.addDay( levelTwo, jan2 );
+		everyone.add( alpha );
+		requests.put( jan2, new ArrayList<Requestant>() );
+		List<Requestant> prob = fixesCalendar.addRequest(
+				jan2, alpha, levelTwo, requests );
+		alpha.addDay( levelOne, jan1 );
+		requests.put( jan1, new ArrayList<Requestant>() );
+		//
+		alpha.removeDay( levelOne, jan1 );
+		prob = fixesCalendar.removeRequest( jan1, alpha, levelOne, requests );
+		assertTrue( "changing own active level"
+				+" should not be a problem", prob.isEmpty() );
+		assertEquals( "active level should be two",
+				alpha.getActiveLevel(), levelTwo  );
+	}
 
 	/*
 	 * Test method for {@link main.java.ws.nzen.vacay.Constrainer#removeRequest(java.time.LocalDate, main.java.ws.nzen.vacay.model.Requestant, int, java.util.Map)}.
