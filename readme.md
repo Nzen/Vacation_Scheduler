@@ -1,13 +1,17 @@
 ## Vacation Scheduler ##
 
-Enables adding heirarchically ranked people with heirarchically declared preferences to a calendar which accommodates two each day.
+Enables adding heirarchically ranked people with heirarchically declared preferences to a calendar which accommodates several each day.
 
-### Under development ###
-
-![linux screenshot](https://farm6.staticflickr.com/5619/31419172675_7461712305_z_d.jpg)  
-Pic hosted by [flickr](https://www.flickr.com/photos/18099895@N06/31419172675)
+![windows screenshot](https://farm1.staticflickr.com/700/31952736465_ea8a2dbdeb_z_d.jpg)  
+Pic hosted by [flickr](https://www.flickr.com/photos/18099895@N06/31952736465)
 
 &copy; Nicholas Prado, released under [Fair License](http://fairlicense.org) terms.
+
+### Usage ###
+
+Activate the jar by double clicking or launching with java. Choose a year and a month. Put the person's name (short preferable), hiso'er seniority, and hiso'er level of choice for the next action. Ensure the radio buttons of add/delete match your current intent. Click a day to apply that action. Doing so may rearrange everyone if a level can('t) be satisfied thereafter.
+
+Navigate around the year by choosing months from the drop down or with the earlier/later buttons. Save will write the entered information as a binary file called people.ser (the ui too). Restore will try to hoist that data back into the calendar.
 
 #### Dev journal ####
 
@@ -20,4 +24,4 @@ Pic hosted by [flickr](https://www.flickr.com/photos/18099895@N06/31419172675)
 7. [Dec 04](https://www.youtube.com/watch?v=7CTC7qBoN6s)
 8. [Dec 04](https://www.youtube.com/watch?v=AuTKxT-F14o)
 9. [Dec 07,10](https://www.youtube.com/watch?v=YB4ZZxUHfbQ)
-10.[Dec 11](https://www.youtube.com/watch?v=lsY3JXbEPns)
+10. [Dec 11](https://www.youtube.com/watch?v=lsY3JXbEPns)
